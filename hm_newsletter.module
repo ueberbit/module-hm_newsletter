@@ -1,0 +1,115 @@
+<?php
+
+
+/**
+ * Implements hook_theme().
+ */
+function hm_newsletter_theme($existing, $type, $theme, $path) {
+  return array(
+    'hm_newsletter_form' => array(
+      'path' => drupal_get_path('module', 'hm_newsletter') . '/theme/',
+      'template' => 'hm-newsletter-form',
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function hm_newsletter_menu() {
+  $items['admin/config/hm_newsletter'] = array(
+    'title' => 'Harbourmaster newsletter',
+    'description' => 'Harbourmaster newsletter',
+    'weight' => 0,
+    'position' => 'right',
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('access administration pages'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  $items['admin/config/hm_newsletter/newsletter'] = array(
+    'title' => 'Newsletter configuration',
+    'description' => 'Newsletter configuration',
+    'weight' => 0,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('hm_newsletter_newsletter_admin_form'),
+    'access arguments' => array('configure harbourmaster settings'),
+    'file' => 'hm_newsletter.admin.inc',
+    'file path' => drupal_get_path('module', 'hm_newsletter'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_permission()
+ */
+function hm_newsletter_permission() {
+  $permissions = array(
+    'configure harbourmaster settings' => array(
+      'title' => t('Configure harbourmaster settings'),
+    ),
+  );
+  return $permissions;
+}
+
+/**
+ * Implements template_preprocess_hm_newsletter_form().
+ */
+function template_preprocess_hm_newsletter_form(&$vars) {
+  $path = drupal_get_path('module', 'hm_newsletter');
+  // Add settings for js.
+  drupal_add_js(array('hm_newsletter' => array(
+      'env' => variable_get('hm_environment', 'production')
+  )),'setting');
+  // Add javascripts for harbourmaster sdk.
+  drupal_add_js($path . '/js/thsixty.load.js', array('scope' => 'header'));
+  // Add javascripts for handling newsletter actions.
+  drupal_add_js($path . '/js/hm_newsletter.js', array('scope' => 'footer'));
+  // Add basic CSS for styling form.
+  drupal_add_css($path . '/css/hm_newsletter.css');
+
+  // Get newsletters.
+  $newsletters = explode(PHP_EOL, variable_get('hm_available_newsletters', array()));
+  $newsletters_options = array();
+  foreach ($newsletters as $newsletter) {
+    $newsletter = explode('|', $newsletter);
+    $newsletters_options[$newsletter[0]] = $newsletter[1];
+  }
+  $vars['newsletters'] = $newsletters_options;
+
+  if (!empty(variable_get('hm_link_privacy', ''))) {
+    $vars['privacy_text'] = 'Ich stimme den ' . l('AGB/Datenschutzbestimmungen', variable_get('hm_link_privacy', '')) .' zu';
+  }
+  // Promotion permission text.
+  $vars['promo_permission'] = variable_get('hm_promo_permission', '');
+  // Promotion permission more text.
+  $vars['promo_permission_more'] = variable_get('hm_promo_permission_more_text', '');
+  // Company list.
+  $vars['company_list'] = variable_get('hm_promo_company_list', '');
+  // Data categories.
+  $vars['data_categories'] = variable_get('hm_promo_data_categories', '');
+  // Revoke text.
+  $vars['revoke_text'] = variable_get('hm_promo_revoke_text', '');
+
+  // Birthday values.
+  $birthday = array();
+  // Days.
+  $birthday['day'][] = '';
+  foreach(range(1, 31) as $number) {
+    $birthday['day'][$number] = $number . '.';
+  }
+  // Months.
+  $birthday['month'][] = '';
+  foreach(range(1, 12) as $number) {
+    $birthday['month'][$number] = $number . '.';
+  }
+  // Years.
+  $year = date('Y');
+  $birthday['year'][] = '';
+  foreach(range(($year-100) , ($year-16)) as $number) {
+    $birthday['year'][$number] = $number;
+  }
+  $vars['birthday'] = $birthday;
+}
