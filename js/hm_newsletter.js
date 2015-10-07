@@ -1,5 +1,14 @@
-(function ($, Drupal, window, document) {
+/**
+ * Extend Number functions and add pad function to
+ * allow leading zeros.
+ */
+Number.prototype.pad = function(size) {
+  var s = String(this);
+  while (s.length < (size || 2)) {s = "0" + s;}
+  return s;
+};
 
+(function ($, Drupal, window, document) {
   /**
    * Harbourmaster Newsletter object.
    * @constructor
@@ -8,6 +17,7 @@
     this.$wrapper = $('#hm-newsletter-subscribe', context);
     this.$form = this.$wrapper.find('form');
     this.$alerts = this.$wrapper.find('.hm_newsletter__alerts');
+    this.$success = this.$wrapper.find('.hm_newsletter__success');
   }
 
   // Global list of possible fields.
@@ -17,8 +27,8 @@
     lastname: null,
     postalcode: null,
     city: null,
-    birthday: null,
-    email: null
+    dateofbirth: null,
+    email: null,
   };
 
   /**
@@ -55,9 +65,8 @@
 
       var valid = true;
       var data = {
-        client: this.client,
+        client: 0,
         groups: [],
-        agreements: [],
         user: {}
       };
 
@@ -68,7 +77,6 @@
         if (field.length) {
           var val = field.val();
           data.user[index] = val;
-
           // When the field is required, the value must not be empty.
           if (val == '' && field.attr('required')) {
             $thisObj.addAlert('danger', index, 'Das Feld ist erforderlich.');
@@ -78,46 +86,64 @@
         }
       });
 
+      // Check if privacy agreement was checked.
+      var $privacy_agreement = $thisObj.$form.find('[name="privacy_agreement"]');
+      if ($privacy_agreement.length && $privacy_agreement.is(':checked') == false) {
+        $thisObj.addAlert('danger', 'privacy_agreement', 'Bitte bestätigen Sie die AGB/ Datenschutzbestimmungen.');
+        return false;
+      }
+
+      // Get day of birth from form and reformat data.
+      var dob_day = parseInt($thisObj.$form.find('[name="dob_day').val());
+      var dob_month = parseInt($thisObj.$form.find('[name="dob_month').val());
+      var dob_year = parseInt($thisObj.$form.find('[name="dob_year').val());
+      if(dob_day > 0  && dob_month > 0 && dob_year > 0) {
+       data.user.dateofbirth = dob_year  + '-' + (dob_month).pad() + '-' + (dob_day).pad();
+      }
       // Get groups from form.
+      var groups = [];
       $thisObj.$form.find('[name="groups[]"]:checked').each(function() {
-        data.groups.push($(this).val());
+        groups.push($(this).val());
       });
+
       // Validate on selected newsletter.
-      if (data.groups.length == 0) {
+      if (groups.length == 0) {
         $thisObj.addAlert('danger', 'groups[]', 'Bitte wählen Sie mindestens einen Newsletter aus.');
         return false;
       }
 
-      // Get selected aggreements from form.
-      $thisObj.$form.find('[name="agreements[]"]').each(function() {
-        // In the case the checbox is checked we add it to the agreements.
-        if ($(this).is(':checked')) {
-          // Agreements that do not have a agreement version, will
-          // not be added to the request.
-          if ($(this).attr('data-agreement-version') !== undefined) {
-            var agr = {
-              'name': $(this).val(),
-              'version': $(this).attr('data-agreement-version')
-            };
-            data.agreements.push(agr);
+      // Get hidden groups - only if promo permission is checked.
+      var $promo_permission = $thisObj.$form.find('[name="promo_permission"]');
+      if ($promo_permission.is(':checked') == true) {
+        $thisObj.$form.find('[name="groups[]"]').each(function () {
+          if ($(this).attr('type') == 'hidden') {
+            groups.push($(this).val());
           }
-        }
-        else if ($(this).attr('required')) {
-          $thisObj.setValidationState($(this), 'has-error');
-          $thisObj.addAlert('danger', null, 'Die Auswahl ist erforderlich.');
-          valid = false;
-          return false;
+        });
+      }
+
+      // Build data for newsletter subscriptions - split up by clients/ groups.
+      var client_groups = [];
+      $.each(groups, function(index, value) {
+        var group_data = value.split('_');
+        if (group_data.length == 2) {
+          if(client_groups[group_data[0]] == undefined) {
+            client_groups[group_data[0]] = [];
+          }
+          client_groups[group_data[0]].push(group_data[1]);
         }
       });
 
       // If we did not quit, we send the request.
-      if (valid) {
-        //this.sendSubscribeRequest(data);
-        console.log(data);
+      if (valid && client_groups.length) {
+        // Send request for every client and it's subscribed groups.
+        client_groups.forEach(function (value, index, arr) {
+          data.client = index;
+          data.groups = value;
+          $thisObj.sendSubscribeRequest(data);
+        });
       }
-
       return false;
-
     }, this));
   };
 
@@ -171,6 +197,35 @@
    */
   HmNewsletter.prototype.formField = function(field) {
     return this.$form.find('[name="' + field + '"]');
+  };
+
+
+  /**
+   * Show success after subscribing to newsletter.
+   */
+  HmNewsletter.prototype.showSuccess = function() {
+    var $thisObj = this;
+    this.$form.hide();
+    this.$success.show();
+  };
+
+
+  /**
+   * Sends subscribe request with given data.
+   * @param data
+   */
+  HmNewsletter.prototype.sendSubscribeRequest = function(data) {
+    var $thisObj = this;
+    window.thsixtyQ.push(['newsletter.subscribe', {
+      params: data,
+      success: function () {
+        $thisObj.showSuccess();
+      },
+      error: function (err) {
+        // @toDo error handling.
+        console.log(err);
+      }
+    }]);
   };
 
   /**
