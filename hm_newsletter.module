@@ -39,6 +39,7 @@ function hm_newsletter_menu() {
     'file path' => drupal_get_path('module', 'hm_newsletter'),
     'type' => MENU_NORMAL_ITEM,
   );
+
   return $items;
 }
 
@@ -120,4 +121,28 @@ function template_preprocess_hm_newsletter_form(&$vars) {
     $birthday['year'][$number] = $number;
   }
   $vars['birthday'] = $birthday;
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function hm_newsletter_block_info() {
+  // hm_newsletter subscription block.
+  $blocks['hm_newsletter_subscribe'] = array(
+    'info' => t('Harbourmaster newsletter subscription form'),
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function hm_newsletter_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'hm_newsletter_subscribe':
+      $block['content'] = theme('hm_newsletter_form');;
+      break;
+  }
+  return $block;
 }
