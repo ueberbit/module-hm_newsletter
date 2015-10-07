@@ -90,3 +90,29 @@
 .hm_newsletter__promo_company_list {
   display: none;
 }
+
+.hm_newsletter button[type=submit] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  background-color: #999;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  color: #fff;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.hm_newsletter button[type=submit]:hover {
+  background-color: #333;
+}
+
+.hm_newsletter__submit {
+  text-align: right;
+  margin-right: 10px;
+}
