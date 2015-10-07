@@ -45,17 +45,17 @@
 
     <div class="hm_newsletter__dob form-group">
       <label class="control-label" for="dob">Geburtsdatum</label>
-      <select>
+      <select name="dob_day">
         <?php foreach ($birthday['day'] as $bd => $bd_label): ?>
           <option value="<?php print $bd ?>"><?php print $bd_label ?></option>
         <?php endforeach; ?>
       </select>
-      <select>
+      <select name="dob_month">
         <?php foreach ($birthday['month'] as $bm => $bm_label): ?>
           <option value="<?php print $bm ?>"><?php print $bm_label ?></option>
         <?php endforeach; ?>
       </select>
-      <select>
+      <select name="dob_year">
         <?php foreach ($birthday['year'] as $by => $by_label): ?>
           <option value="<?php print $by ?>"><?php print $by_label ?></option>
         <?php endforeach; ?>
@@ -120,4 +120,8 @@
       </div>
     <?php endif; ?>
   </form>
+  <div class="hm_newsletter__success">
+    Sie haben sich erfolgreich am Newsletter angemeldet.
+  </div>
+
 </div>

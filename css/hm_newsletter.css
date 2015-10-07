@@ -21,11 +21,18 @@
   margin-top: 10px;
 }
 
+.hm_newsletter__success,
 .hm_newsletter .alert {
   padding: 15px;
   margin-bottom: 13px;
   border: 1px solid transparent;
   border-radius: 4px;
+}
+
+.hm_newsletter__success {
+  background-color: #dff0d8;
+  border-color: #D4E4CD;
+  color: #000;
 }
 
 .hm_newsletter .required:after {
@@ -57,7 +64,7 @@
   float: left;
   width: 49.9%;
 }
-.hm_newsletter input[type="mail"] {
+.hm_newsletter input[type=email] {
   width: 300px;
 }
 
@@ -77,6 +84,7 @@
   color: #a94442;
 }
 
+.hm_newsletter__success,
 .hm_newsletter__promo_permission_more,
 .hm_newsletter__promo_data_categories,
 .hm_newsletter__promo_company_list {
