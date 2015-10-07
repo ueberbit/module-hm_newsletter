@@ -141,7 +141,7 @@ function hm_newsletter_block_view($delta = '') {
   $block = array();
   switch ($delta) {
     case 'hm_newsletter_subscribe':
-      $block['content'] = theme('hm_newsletter_form');;
+      $block['content'] = theme('hm_newsletter_form');
       break;
   }
   return $block;
