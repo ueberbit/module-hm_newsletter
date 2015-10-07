@@ -47,6 +47,14 @@ The key consists of CLIENTID_NEWSLETTERID, and is used by the thsixty api. The l
     '#description' => t('Enter one value per line, in the format CLIENTID_GROUPID.'),
     '#type' => 'textarea',
     '#default_value' => variable_get('hm_promo_permission_ids', ''),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="hm_promo_permission"]' => array('filled' => TRUE),
+      ),
+      'required' => array(
+        ':input[name="hm_promo_permission"]' => array('filled' => TRUE),
+      ),
+    ),
   );
 
   $form['hm_newsletter']['hm_promo_permission_more_text'] = array(
@@ -54,25 +62,53 @@ The key consists of CLIENTID_NEWSLETTERID, and is used by the thsixty api. The l
     '#description' => t('More text for promotion permission'),
     '#type' => 'textarea',
     '#default_value' => variable_get('hm_promo_permission_more_text', ''),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="hm_promo_permission"]' => array('filled' => TRUE),
+      ),
+    ),
   );
 
   $form['hm_newsletter']['hm_promo_company_list'] = array(
     '#title' => t('Promotion company list'),
     '#type' => 'textarea',
     '#default_value' => variable_get('hm_promo_company_list', ''),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="hm_promo_permission"]' => array('filled' => TRUE),
+      ),
+    ),
   );
 
   $form['hm_newsletter']['hm_promo_data_categories'] = array(
     '#title' => t('Promotion data categories'),
     '#type' => 'textarea',
     '#default_value' => variable_get('hm_promo_data_categories', ''),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="hm_promo_permission"]' => array('filled' => TRUE),
+      ),
+    ),
   );
 
   $form['hm_newsletter']['hm_promo_revoke_text'] = array(
     '#title' => t('Promotion revoke text'),
     '#type' => 'textarea',
     '#default_value' => variable_get('hm_promo_revoke_text', ''),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="hm_promo_permission"]' => array('filled' => TRUE),
+      ),
+    ),
   );
+
+  $form['hm_newsletter']['hm_imprint_text'] = array(
+    '#title' => t('Imprint text'),
+    '#description' => t('Text is displayed in the footer of the newsletter subscription form.'),
+    '#type' => 'textarea',
+    '#default_value' => variable_get('hm_imprint_text', ''),
+  );
+
 
   return system_settings_form($form);
 }

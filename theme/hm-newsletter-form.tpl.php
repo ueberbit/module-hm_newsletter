@@ -67,7 +67,7 @@
     </div>
     <?php if(!empty($privacy_text)): ?>
     <div class="hm_newsletter__data_policy form-group">
-      <label class="control-label required" for="privacy_agreement">
+      <label class="control-label" for="privacy_agreement">
         <input type="checkbox" class="form-control" id="privacy_agreement" name="privacy_agreement" required="required">
         <?php print $privacy_text; ?>
       </label>
@@ -81,6 +81,9 @@
               <span class="read-more" data-toggle-text="Mehr" data-toggle=".hm_newsletter__promo_permission_more">Mehr</span>
             </div>
           </label>
+          <?php foreach ($promo_permission_ids as $promo_permission_id): ?>
+            <input type="hidden" name="groups[]"  value="<?php print $promo_permission_id; ?>">
+          <?php endforeach; ?>
           <div class="hm_newsletter__promo_permission_more">
               <?php if (!empty($promo_permission_more)): ?>
                 <?php print $promo_permission_more; ?>
@@ -111,5 +114,10 @@
     <div class="hm_newsletter__submit">
       <button type="submit" class="btn btn-default">Jetzt anmelden</button>
     </div>
+    <?php if (!empty($imprint_text)): ?>
+      <div class="hm_newsletter__imprint">
+        <?php print $imprint_text; ?>
+      </div>
+    <?php endif; ?>
   </form>
 </div>
