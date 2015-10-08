@@ -30,8 +30,8 @@ The key consists of CLIENTID_NEWSLETTERID, and is used by the thsixty api. The l
 
   $form['hm_newsletter']['hm_link_privacy'] = array(
     '#title' => t('Link to privacy page'),
+    '#description' => t('Show an extra checkbox to confirm data proteciton rules.'),
     '#type' => 'textfield',
-    '#required' => TRUE,
     '#default_value' => variable_get('hm_link_privacy', ''),
   );
 

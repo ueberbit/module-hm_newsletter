@@ -35,14 +35,21 @@
   color: #000;
 }
 
+.hm_newsletter__required_info {
+  font-size: 11px;
+}
+
 .hm_newsletter .required:after {
   content: '*';
   display: inline-block;
 }
 
 .hm_newsletter .read-more {
-  font-weight: bold;
   cursor: pointer;
+}
+
+.hm_newsletter span.read-more {
+  text-decoration: underline;
 }
 
 .hm_newsletter label {
@@ -64,6 +71,7 @@
   float: left;
   width: 49.9%;
 }
+
 .hm_newsletter input[type=email] {
   width: 300px;
 }

@@ -79,6 +79,7 @@
         </label>
       </div>
     <?php endif; ?>
+    <span class="hm_newsletter__required_info">* Pflichtfeld</span>
     <?php if (!empty($promo_permission)): ?>
       <span class="hm_newsletter__headline2">Datenschutzabfrage</span>
       <div class="hm_newsletter__promo_permission">
@@ -86,8 +87,8 @@
           <div class="checkbox">
             <input type="checkbox" name="promo_permission"
                    id="promo_permission"> <?php print $promo_permission; ?>
-            <span class="read-more" data-toggle-text="Mehr"
-                  data-toggle=".hm_newsletter__promo_permission_more">Mehr</span>
+            <strong class="read-more" data-toggle-text="Mehr"
+                  data-toggle=".hm_newsletter__promo_permission_more">Mehr</strong>
           </div>
         </label>
         <?php foreach ($promo_permission_ids as $promo_permission_id): ?>
@@ -106,7 +107,7 @@
               </div>
             <?php endif; ?>
             <?php if (!empty($data_categories)): ?>
-              <br/>Die Daten, auf die sich die Einwilligung bezieht, sind hier aufgelistet:
+              <br>Die Daten, auf die sich die Einwilligung bezieht, sind hier aufgelistet:
               <span class="read-more" data-toggle-text="Datenkategorien"
                     data-toggle=".hm_newsletter__promo_data_categories">Datenkategorien</span>
               <div class="hm_newsletter__promo_data_categories">
