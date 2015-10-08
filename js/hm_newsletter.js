@@ -70,6 +70,7 @@ Number.prototype.pad = function(size) {
         user: {}
       };
 
+
       // Get userdata from fields.
       $.each(HmNewsletter.fields, function(index) {
         var field = $thisObj.formField(index);
@@ -81,25 +82,16 @@ Number.prototype.pad = function(size) {
           if (val == '' && field.attr('required')) {
             $thisObj.addAlert('danger', index, 'Das Feld ist erforderlich.');
             valid = false;
-            return false;
+          }
+          // Check for valid email address.
+          var regex = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/igm;
+          if ((index == 'email' && val.length > 0) && !regex.test(val)) {
+            $thisObj.addAlert('danger', index, 'Bitte überprüfen Sie die Eingabe der E-Mail Adresse.');
+            valid = false;
           }
         }
       });
 
-      // Check if privacy agreement was checked.
-      var $privacy_agreement = $thisObj.$form.find('[name="privacy_agreement"]');
-      if ($privacy_agreement.length && $privacy_agreement.is(':checked') == false) {
-        $thisObj.addAlert('danger', 'privacy_agreement', 'Bitte bestätigen Sie die AGB/ Datenschutzbestimmungen.');
-        return false;
-      }
-
-      // Get day of birth from form and reformat data.
-      var dob_day = parseInt($thisObj.$form.find('[name="dob_day').val());
-      var dob_month = parseInt($thisObj.$form.find('[name="dob_month').val());
-      var dob_year = parseInt($thisObj.$form.find('[name="dob_year').val());
-      if(dob_day > 0  && dob_month > 0 && dob_year > 0) {
-       data.user.dateofbirth = dob_year  + '-' + (dob_month).pad() + '-' + (dob_day).pad();
-      }
       // Get groups from form.
       var groups = [];
       $thisObj.$form.find('[name="groups[]"]:checked').each(function() {
@@ -109,7 +101,20 @@ Number.prototype.pad = function(size) {
       // Validate on selected newsletter.
       if (groups.length == 0) {
         $thisObj.addAlert('danger', 'groups[]', 'Bitte wählen Sie mindestens einen Newsletter aus.');
-        return false;
+      }
+
+      // Check if privacy agreement was checked.
+      var $privacy_agreement = $thisObj.$form.find('[name="privacy_agreement"]');
+      if ($privacy_agreement.length && $privacy_agreement.is(':checked') == false) {
+        $thisObj.addAlert('danger', 'privacy_agreement', 'Bitte bestätigen Sie die AGB/ Datenschutzbestimmungen.');
+      }
+
+      // Get day of birth from form and reformat data.
+      var dob_day = parseInt($thisObj.$form.find('[name="dob_day').val());
+      var dob_month = parseInt($thisObj.$form.find('[name="dob_month').val());
+      var dob_year = parseInt($thisObj.$form.find('[name="dob_year').val());
+      if(dob_day > 0  && dob_month > 0 && dob_year > 0) {
+       data.user.dateofbirth = dob_year  + '-' + (dob_month).pad() + '-' + (dob_day).pad();
       }
 
       // Get hidden groups - only if promo permission is checked.
@@ -142,15 +147,22 @@ Number.prototype.pad = function(size) {
           data.groups = value;
           $thisObj.sendSubscribeRequest(data);
         });
+        $thisObj.scrollPage();
       }
       return false;
     }, this));
   };
 
   /**
-   * Open more-text links.
+   * Scroll up page to actual form.
    */
-
+  HmNewsletter.prototype.scrollPage = function() {
+    var $thisObj = this;
+    // Scroll page up to newsletter form.
+    $('html, body').animate({
+      scrollTop: 0
+    }, 200);
+  };
 
   /**
    * Adds alert to the newsletter form's alert section.
@@ -165,9 +177,12 @@ Number.prototype.pad = function(size) {
     if (type == 'danger' && field !== undefined) {
       this.setValidationState(this.formField(field), 'has-error');
     }
-
     var alertString = '<div class="alert alert-'+ type + '" role="alert">' + message +'</div>';
-    this.$alerts.append(alertString);
+    // Check if alertString already exists.
+    var alertshtml = this.$alerts.html();
+    if (alertshtml.indexOf(alertString) == -1) {
+      this.$alerts.append(alertString);
+    }
   };
 
   /**
@@ -205,10 +220,11 @@ Number.prototype.pad = function(size) {
    */
   HmNewsletter.prototype.showSuccess = function() {
     var $thisObj = this;
+    // Reset complete form.
+    this.$form.trigger("reset");
     this.$form.hide();
     this.$success.show();
   };
-
 
   /**
    * Sends subscribe request with given data.
