@@ -1,6 +1,7 @@
 <div id="hm-newsletter-subscribe" class="hm_newsletter">
   <form class="form-horizontal" novalidate>
     <span class="hm_newsletter__headline">Newsletter abonnieren</span>
+
     <div class="hm_newsletter__newsletters form-group">
       <?php foreach ($newsletters as $nl_id => $nl_label): ?>
         <div class="checkbox">
@@ -25,17 +26,20 @@
     <div class="hm_newsletter__wrap2col clearfix">
       <div class="hm_newsletter__firstname hm_newsletter__col form-group">
         <label class="control-label required" for="firstname">Vorname:</label>
-        <input type="text" class="form-control" id="firstname" name="firstname" required="required">
+        <input type="text" class="form-control" id="firstname" name="firstname"
+               required="required">
       </div>
       <div class="hm_newsletter__lastname hm_newsletter__col form-group">
         <label class="control-label required" for="lastname">Nachname:</label>
-        <input type="text" class="form-control" id="lastname" name="lastname" required="required">
+        <input type="text" class="form-control" id="lastname" name="lastname"
+               required="required">
       </div>
     </div>
     <div class="hm_newsletter__wrap2col clearfix">
       <div class="hm_newsletter__postcode hm_newsletter__col form-group">
         <label class="control-label" for="postalcode">Postleitzahl:</label>
-        <input type="text" class="form-control" id="postalcode" name="postalcode">
+        <input type="text" class="form-control" id="postalcode"
+               name="postalcode">
       </div>
       <div class="hm_newsletter__city hm_newsletter__col form-group">
         <label class="control-label" for="city">Ort:</label>
@@ -63,52 +67,60 @@
     </div>
     <div class="hm_newsletter__email form-group">
       <label class="control-label required" for="email">E-Mail</label>
-      <input type="email" class="form-control" id="email" name="email" required="required">
+      <input type="email" class="form-control" id="email" name="email"
+             required="required">
     </div>
-    <?php if(!empty($privacy_text)): ?>
-    <div class="hm_newsletter__data_policy form-group">
-      <label class="control-label" for="privacy_agreement">
-        <input type="checkbox" class="form-control" id="privacy_agreement" name="privacy_agreement" required="required">
-        <?php print $privacy_text; ?>
-      </label>
-    </div>
+    <?php if (!empty($privacy_text)): ?>
+      <div class="hm_newsletter__data_policy form-group">
+        <label class="control-label" for="privacy_agreement">
+          <input type="checkbox" class="form-control" id="privacy_agreement"
+                 name="privacy_agreement" required="required">
+          <?php print $privacy_text; ?>
+        </label>
+      </div>
     <?php endif; ?>
     <?php if (!empty($promo_permission)): ?>
-    <div class="hm_newsletter__promo_permission">
-          <label for="promo_permission">
-            <div class="checkbox">
-              <input type="checkbox" name="promo_permission" id="promo_permission"> <?php print $promo_permission; ?>
-              <span class="read-more" data-toggle-text="Mehr" data-toggle=".hm_newsletter__promo_permission_more">Mehr</span>
-            </div>
-          </label>
-          <?php foreach ($promo_permission_ids as $promo_permission_id): ?>
-            <input type="hidden" name="groups[]"  value="<?php print $promo_permission_id; ?>">
-          <?php endforeach; ?>
-          <div class="hm_newsletter__promo_permission_more">
-              <?php if (!empty($promo_permission_more)): ?>
-                <?php print $promo_permission_more; ?>
-                <?php if (!empty($company_list)): ?>
-                  Die HBM-Unternehmen, für die die Einwilligung gilt, sind hier aufgelistet:
-                  <span class="read-more" data-toggle-text="Unternehmensliste" data-toggle=".hm_newsletter__promo_company_list">Unternehmensliste</span>
-                  <div class="hm_newsletter__promo_company_list">
-                    <?php print $company_list; ?>
-                  </div>
-                <?php endif;?>
-                <?php if (!empty($data_categories)): ?>
-                  <br />Die Daten, auf die sich die Einwilligung bezieht, sind hier aufgelistet:
-                  <span class="read-more" data-toggle-text="Datenkategorien" data-toggle=".hm_newsletter__promo_data_categories">Datenkategorien</span>
-                  <div class="hm_newsletter__promo_data_categories">
-                    <?php print $data_categories; ?>
-                  </div>
-                <?php endif; ?>
-                <?php if (!empty($revoke_text)): ?>
-                  <div class="hm_newsletter__promo_revoke">
-                    <?php print $revoke_text; ?>
-                  </div>
-                <?php endif; ?>
-              <?php endif; ?>
+      <span class="hm_newsletter__headline2">Datenschutzabfrage</span>
+      <div class="hm_newsletter__promo_permission">
+        <label for="promo_permission">
+          <div class="checkbox">
+            <input type="checkbox" name="promo_permission"
+                   id="promo_permission"> <?php print $promo_permission; ?>
+            <span class="read-more" data-toggle-text="Mehr"
+                  data-toggle=".hm_newsletter__promo_permission_more">Mehr</span>
           </div>
-    </div>
+        </label>
+        <?php foreach ($promo_permission_ids as $promo_permission_id): ?>
+          <input type="hidden" name="groups[]"
+                 value="<?php print $promo_permission_id; ?>">
+        <?php endforeach; ?>
+        <div class="hm_newsletter__promo_permission_more">
+          <?php if (!empty($promo_permission_more)): ?>
+            <?php print $promo_permission_more; ?>
+            <?php if (!empty($company_list)): ?>
+              Die HBM-Unternehmen, für die die Einwilligung gilt, sind hier aufgelistet:
+              <span class="read-more" data-toggle-text="Unternehmensliste"
+                    data-toggle=".hm_newsletter__promo_company_list">Unternehmensliste</span>
+              <div class="hm_newsletter__promo_company_list">
+                <?php print $company_list; ?>
+              </div>
+            <?php endif; ?>
+            <?php if (!empty($data_categories)): ?>
+              <br/>Die Daten, auf die sich die Einwilligung bezieht, sind hier aufgelistet:
+              <span class="read-more" data-toggle-text="Datenkategorien"
+                    data-toggle=".hm_newsletter__promo_data_categories">Datenkategorien</span>
+              <div class="hm_newsletter__promo_data_categories">
+                <?php print $data_categories; ?>
+              </div>
+            <?php endif; ?>
+            <?php if (!empty($revoke_text)): ?>
+              <div class="hm_newsletter__promo_revoke">
+                <?php print $revoke_text; ?>
+              </div>
+            <?php endif; ?>
+          <?php endif; ?>
+        </div>
+      </div>
     <?php endif; ?>
     <div class="hm_newsletter__alerts"></div>
     <div class="hm_newsletter__submit">
@@ -123,5 +135,4 @@
   <div class="hm_newsletter__success">
     Sie haben sich erfolgreich am Newsletter angemeldet.
   </div>
-
 </div>
