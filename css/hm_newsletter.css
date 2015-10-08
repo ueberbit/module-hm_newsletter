@@ -4,6 +4,10 @@
   font-size: 14px;
 }
 
+.hm_newsletter * {
+  box-sizing: content-box;
+}
+
 .hm_newsletter__headline,
 .hm_newsletter__headline2 {
   border-bottom: 1px solid #e0e0e0;
