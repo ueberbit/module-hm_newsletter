@@ -40,6 +40,14 @@ function hm_newsletter_menu() {
     'type' => MENU_NORMAL_ITEM,
   );
 
+  $items['newsletter/iframe'] = array(
+    'title' => 'Newsletter',
+    'weight' => 0,
+    'page callback' => 'hm_newsletter_page_iframe',
+    'access callback' => true,
+    'file' => 'hm_newsletter.pages.inc',
+    'file path' => drupal_get_path('module', 'hm_newsletter'),
+  );
   return $items;
 }
 

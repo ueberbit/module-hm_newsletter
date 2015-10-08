@@ -66,7 +66,7 @@
       </select>
     </div>
     <div class="hm_newsletter__email form-group">
-      <label class="control-label required" for="email">E-Mail</label>
+      <label class="control-label required" for="email">E-Mail:</label>
       <input type="email" class="form-control" id="email" name="email"
              required="required">
     </div>
