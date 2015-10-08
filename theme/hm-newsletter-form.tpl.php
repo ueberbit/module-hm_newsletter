@@ -127,6 +127,7 @@
       <button type="submit" class="btn btn-default">Jetzt anmelden</button>
     </div>
     <?php if (!empty($imprint_text)): ?>
+      <span class="hm_newsletter__headline2">Impressum</span>
       <div class="hm_newsletter__imprint">
         <?php print $imprint_text; ?>
       </div>
