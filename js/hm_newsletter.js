@@ -18,6 +18,7 @@ Number.prototype.pad = function(size) {
     this.$form = this.$wrapper.find('form');
     this.$alerts = this.$wrapper.find('.hm_newsletter__alerts');
     this.$success = this.$wrapper.find('.hm_newsletter__success');
+    this.$error = this.$wrapper.find('.hm_newsletter__error');
   }
 
   // Global list of possible fields.
@@ -227,6 +228,17 @@ Number.prototype.pad = function(size) {
   };
 
   /**
+   * Show error after failed subscribtion to newsletter.
+   */
+  HmNewsletter.prototype.showError = function() {
+    var $thisObj = this;
+    // Reset complete form.
+    this.$form.trigger("reset");
+    this.$form.hide();
+    this.$error.show();
+  };
+
+  /**
    * Sends subscribe request with given data.
    * @param data
    */
@@ -238,8 +250,7 @@ Number.prototype.pad = function(size) {
         $thisObj.showSuccess();
       },
       error: function (err) {
-        // @toDo error handling.
-        console.log(err);
+        $thisObj.showError();
       }
     }]);
   };
