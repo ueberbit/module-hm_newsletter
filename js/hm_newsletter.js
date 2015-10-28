@@ -95,6 +95,7 @@ Number.prototype.pad = function(size) {
 
       // Get groups from form.
       var groups = [];
+      var promo_groups = [];
       $thisObj.$form.find('[name="groups[]"]:checked').each(function() {
         groups.push($(this).val());
       });
@@ -123,7 +124,7 @@ Number.prototype.pad = function(size) {
       if ($promo_permission.is(':checked') == true) {
         $thisObj.$form.find('[name="groups[]"]').each(function () {
           if ($(this).attr('type') == 'hidden') {
-            groups.push($(this).val());
+            promo_groups.push($(this).val());
           }
         });
       }
@@ -137,6 +138,16 @@ Number.prototype.pad = function(size) {
             client_groups[group_data[0]] = [];
           }
           client_groups[group_data[0]].push(group_data[1]);
+        }
+      });
+
+      // Add Promo group to subscribe to to client_groups.
+      $.each(promo_groups, function(index, value) {
+        var p_group_data = value.split('_');
+        if (p_group_data.length == 2) {
+          if(client_groups[p_group_data[0]] !== undefined) {
+            client_groups[p_group_data[0]].push(p_group_data[1]);
+          }
         }
       });
 
