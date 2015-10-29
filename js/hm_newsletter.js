@@ -68,9 +68,9 @@ Number.prototype.pad = function(size) {
       var data = {
         client: 0,
         groups: [],
-        user: {}
+        user: {},
+        agreements: []
       };
-
 
       // Get userdata from fields.
       $.each(HmNewsletter.fields, function(index) {
@@ -157,6 +157,15 @@ Number.prototype.pad = function(size) {
         client_groups.forEach(function (value, index, arr) {
           data.client = index;
           data.groups = value;
+          data.agreements = [];
+          // Add agreements to API call.
+          if (promo_groups.length) {
+            var data_protection_agreement = {
+              "version": "1.0",
+              "name": "datenschutzeinwilligung"
+            };
+            data.agreements.push(data_protection_agreement);
+          }
           $thisObj.sendSubscribeRequest(data);
         });
         $thisObj.scrollPage();
