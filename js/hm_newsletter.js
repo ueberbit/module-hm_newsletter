@@ -255,8 +255,7 @@ Number.prototype.pad = function(size) {
    */
   HmNewsletter.prototype.sendSubscribeRequest = function(data) {
     var $thisObj = this;
-    console.log(data);
-    /*window.thsixtyQ.push(['newsletter.subscribe', {
+    window.thsixtyQ.push(['newsletter.subscribe', {
       params: data,
       success: function () {
         $thisObj.showSuccess();
@@ -264,7 +263,7 @@ Number.prototype.pad = function(size) {
       error: function (err) {
         $thisObj.showError();
       }
-    }]);*/
+    }]);
   };
 
   /**
