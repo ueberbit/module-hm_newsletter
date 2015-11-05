@@ -131,16 +131,6 @@ Number.prototype.pad = function(size) {
         }
       });
 
-      // Add Promo group to subscribe to to client_groups.
-      $.each(promo_groups, function(index, value) {
-        var p_group_data = value.split('_');
-        if (p_group_data.length == 2) {
-          if(client_groups[p_group_data[0]] !== undefined) {
-            client_groups[p_group_data[0]].push(p_group_data[1]);
-          }
-        }
-      });
-
       // If we did not quit, we send the request.
       if (valid && client_groups.length) {
         // Send request for every client and it's subscribed groups.
