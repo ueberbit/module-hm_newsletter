@@ -119,16 +119,6 @@ Number.prototype.pad = function(size) {
        data.user.dateofbirth = dob_year  + '-' + (dob_month).pad() + '-' + (dob_day).pad();
       }
 
-      // Get hidden groups - only if promo permission is checked.
-      var $promo_permission = $thisObj.$form.find('[name="promo_permission"]');
-      if ($promo_permission.is(':checked') == true) {
-        $thisObj.$form.find('[name="groups[]"]').each(function () {
-          if ($(this).attr('type') == 'hidden') {
-            promo_groups.push($(this).val());
-          }
-        });
-      }
-
       // Build data for newsletter subscriptions - split up by clients/ groups.
       var client_groups = [];
       $.each(groups, function(index, value) {
@@ -159,7 +149,8 @@ Number.prototype.pad = function(size) {
           data.groups = value;
           data.agreements = [];
           // Add agreements to API call.
-          if (promo_groups.length) {
+          var $promo_permission = $thisObj.$form.find('[name="promo_permission"]');
+          if ($promo_permission.is(':checked') == true) {
             var data_protection_agreement = {
               "version": "1.0",
               "name": "datenschutzeinwilligung"
@@ -264,7 +255,8 @@ Number.prototype.pad = function(size) {
    */
   HmNewsletter.prototype.sendSubscribeRequest = function(data) {
     var $thisObj = this;
-    window.thsixtyQ.push(['newsletter.subscribe', {
+    console.log(data);
+    /*window.thsixtyQ.push(['newsletter.subscribe', {
       params: data,
       success: function () {
         $thisObj.showSuccess();
@@ -272,7 +264,7 @@ Number.prototype.pad = function(size) {
       error: function (err) {
         $thisObj.showError();
       }
-    }]);
+    }]);*/
   };
 
   /**

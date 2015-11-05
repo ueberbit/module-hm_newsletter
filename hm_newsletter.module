@@ -92,12 +92,7 @@ function template_preprocess_hm_newsletter_form(&$vars) {
   if (!empty($hm_link_privacy)) {
     $vars['privacy_text'] = 'Ich stimme den ' . l('AGB/Datenschutzbestimmungen', variable_get('hm_link_privacy', '')) .' zu';
   }
-  // Promotion permission ids for later processing.
-  $vars['promo_permission_ids'] = array();
-  $promo_permission_ids = explode(PHP_EOL, variable_get('hm_promo_permission_ids', array()));
-  foreach ($promo_permission_ids as $permission_id) {
-    $vars['promo_permission_ids'][] = trim($permission_id);
-  }
+
   // Promotion permission text.
   $vars['promo_permission'] = variable_get('hm_promo_permission', '');
   // Promotion permission more text.

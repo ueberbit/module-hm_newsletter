@@ -42,21 +42,6 @@ The key consists of CLIENTID_NEWSLETTERID, and is used by the thsixty api. The l
     '#default_value' => variable_get('hm_promo_permission', ''),
   );
 
-  $form['hm_newsletter']['hm_promo_permission_ids'] = array(
-    '#title' => t('Promotion permission groups'),
-    '#description' => t('Enter one value per line, in the format CLIENTID_GROUPID.'),
-    '#type' => 'textarea',
-    '#default_value' => variable_get('hm_promo_permission_ids', ''),
-    '#states' => array(
-      'visible' => array(
-        ':input[name="hm_promo_permission"]' => array('filled' => TRUE),
-      ),
-      'required' => array(
-        ':input[name="hm_promo_permission"]' => array('filled' => TRUE),
-      ),
-    ),
-  );
-
   $form['hm_newsletter']['hm_promo_permission_more_text'] = array(
     '#title' => t('Promotion permission more text'),
     '#description' => t('More text for promotion permission'),
