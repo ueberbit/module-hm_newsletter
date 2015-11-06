@@ -95,15 +95,16 @@ Number.prototype.pad = function(size) {
 
       // Get groups from form.
       var groups = [];
-      var promo_groups = [];
       $thisObj.$form.find('[name="groups[]"]:checked').each(function() {
         groups.push($(this).val());
       });
 
-      // Validate on selected newsletter.
+      // Validate on selected newsletter - disabled to allow
+      // sending form only subscribing to agreements.
+      /*
       if (groups.length == 0) {
-        $thisObj.addAlert('danger', 'groups[]', 'Bitte wählen Sie mindestens einen Newsletter aus.');
-      }
+         $thisObj.addAlert('danger', 'groups[]', 'Bitte wählen Sie mindestens einen Newsletter aus.');
+      }*/
 
       // Check if privacy agreement was checked.
       var $privacy_agreement = $thisObj.$form.find('[name="privacy_agreement"]');
@@ -131,24 +132,44 @@ Number.prototype.pad = function(size) {
         }
       });
 
-      // If we did not quit, we send the request.
+      // Check if agreements where checked.
+      var agreements = [];
+      var client_id = $thisObj.$form.find('[name="client_id"]').val();
+
+      // Datenschutzeinwilligung.
+      var $promo_permission = $thisObj.$form.find('[name="promo_permission"]');
+      if ($promo_permission.is(':checked') == true) {
+        var data_protection_agreement = {
+          "version": "1.0",
+          "name": "datenschutzeinwilligung"
+        };
+        agreements.push(data_protection_agreement);
+      }
+
+      // We only send request if groups or agreements are passed.
+      if (valid && agreements.length == 0 && client_groups.length == 0) {
+        $thisObj.addAlert('danger', 'promo_permission', 'Bitte bestätigen Sie die Datenschutzeinwilligung.');
+        valid = false;
+      }
+
+      // Send subscribe request with newsletters.
       if (valid && client_groups.length) {
         // Send request for every client and it's subscribed groups.
         client_groups.forEach(function (value, index, arr) {
           data.client = index;
           data.groups = value;
           data.agreements = [];
-          // Add agreements to API call.
-          var $promo_permission = $thisObj.$form.find('[name="promo_permission"]');
-          if ($promo_permission.is(':checked') == true) {
-            var data_protection_agreement = {
-              "version": "1.0",
-              "name": "datenschutzeinwilligung"
-            };
-            data.agreements.push(data_protection_agreement);
-          }
           $thisObj.sendSubscribeRequest(data);
         });
+        $thisObj.scrollPage();
+      }
+
+      // Send subscribe request for agreements..
+      if (valid && agreements.length) {
+        data.client = parseInt(client_id);
+        data.groups = [];
+        data.agreements = agreements;
+        $thisObj.sendSubscribeRequest(data);
         $thisObj.scrollPage();
       }
       return false;
@@ -194,6 +215,7 @@ Number.prototype.pad = function(size) {
    * @param state
    */
   HmNewsletter.prototype.setValidationState = function(el, state) {
+    console.log(el);
     el.parents('.form-group').addClass(state);
   };
 
@@ -245,6 +267,7 @@ Number.prototype.pad = function(size) {
    */
   HmNewsletter.prototype.sendSubscribeRequest = function(data) {
     var $thisObj = this;
+    /*
     window.thsixtyQ.push(['newsletter.subscribe', {
       params: data,
       success: function () {
@@ -254,6 +277,8 @@ Number.prototype.pad = function(size) {
         $thisObj.showError();
       }
     }]);
+    */
+    console.log(data);
   };
 
   /**

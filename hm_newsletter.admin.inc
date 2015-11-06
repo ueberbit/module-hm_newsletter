@@ -20,6 +20,14 @@ function hm_newsletter_newsletter_admin_form($form, &$form_state) {
     '#default_value' => variable_get('hm_environment', 'production'),
   );
 
+  $form['hm_newsletter']['hm_client_id'] = array(
+    '#title' => t('Client id'),
+    '#description' => t('Client id will be used for agreements.'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+    '#default_value' => variable_get('hm_client_id', ''),
+  );
+
   $form['hm_newsletter']['hm_available_newsletters'] = array(
     '#title' => t('Available newsletters'),
     '#description' => t('Enter one value per line, in the format key|label.

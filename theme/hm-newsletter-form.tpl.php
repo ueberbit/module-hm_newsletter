@@ -1,5 +1,6 @@
 <div id="hm-newsletter-subscribe" class="hm_newsletter">
   <form class="form-horizontal" novalidate>
+    <input type="hidden" name="client_id" value="<?php print $client_id; ?>">
     <span class="hm_newsletter__headline">Newsletter abonnieren</span>
 
     <div class="hm_newsletter__newsletters form-group">
@@ -82,7 +83,7 @@
     <span class="hm_newsletter__required_info">* Pflichtfeld</span>
     <?php if (!empty($promo_permission)): ?>
       <span class="hm_newsletter__headline2">Datenschutzabfrage</span>
-      <div class="hm_newsletter__promo_permission">
+      <div class="hm_newsletter__promo_permission form-group">
         <label for="promo_permission">
           <div class="checkbox">
             <input type="checkbox" name="promo_permission"
@@ -91,10 +92,6 @@
                   data-toggle=".hm_newsletter__promo_permission_more">Mehr</strong>
           </div>
         </label>
-        <?php foreach ($promo_permission_ids as $promo_permission_id): ?>
-          <input type="hidden" name="groups[]"
-                 value="<?php print $promo_permission_id; ?>">
-        <?php endforeach; ?>
         <div class="hm_newsletter__promo_permission_more">
           <?php if (!empty($promo_permission_more)): ?>
             <?php print $promo_permission_more; ?>
