@@ -65,12 +65,7 @@ Number.prototype.pad = function(size) {
       $thisObj.removeAlerts();
 
       var valid = true;
-      var data = {
-        client: 0,
-        groups: [],
-        user: {},
-        agreements: []
-      };
+      var user = {};
 
       // Get userdata from fields.
       $.each(HmNewsletter.fields, function(index) {
@@ -78,7 +73,7 @@ Number.prototype.pad = function(size) {
         // Get the value from the field, if it exists.
         if (field.length) {
           var val = field.val();
-          data.user[index] = val;
+          user[index] = val;
           // When the field is required, the value must not be empty.
           if (val == '' && field.attr('required')) {
             $thisObj.addAlert('danger', index, 'Das Feld ist erforderlich.');
@@ -117,7 +112,7 @@ Number.prototype.pad = function(size) {
       var dob_month = parseInt($thisObj.$form.find('[name="dob_month').val());
       var dob_year = parseInt($thisObj.$form.find('[name="dob_year').val());
       if(dob_day > 0  && dob_month > 0 && dob_year > 0) {
-       data.user.dateofbirth = dob_year  + '-' + (dob_month).pad() + '-' + (dob_day).pad();
+       user.dateofbirth = dob_year  + '-' + (dob_month).pad() + '-' + (dob_day).pad();
       }
 
       // Build data for newsletter subscriptions - split up by clients/ groups.
@@ -154,10 +149,12 @@ Number.prototype.pad = function(size) {
 
       // Send subscribe request with newsletters.
       if (valid && client_groups.length) {
+        var data = {};
         // Send request for every client and it's subscribed groups.
         client_groups.forEach(function (value, index, arr) {
           data.client = index;
           data.groups = value;
+          data.user = user;
           data.agreements = [];
           $thisObj.sendSubscribeRequest(data);
         });
@@ -166,8 +163,10 @@ Number.prototype.pad = function(size) {
 
       // Send subscribe request for agreements..
       if (valid && agreements.length) {
+        var data = {};
         data.client = parseInt(client_id);
         data.groups = [];
+        data.user = user;
         data.agreements = agreements;
         $thisObj.sendSubscribeRequest(data);
         $thisObj.scrollPage();
@@ -215,7 +214,6 @@ Number.prototype.pad = function(size) {
    * @param state
    */
   HmNewsletter.prototype.setValidationState = function(el, state) {
-    console.log(el);
     el.parents('.form-group').addClass(state);
   };
 
