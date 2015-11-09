@@ -132,7 +132,7 @@
     <?php endif; ?>
   </form>
   <div class="hm_newsletter__success">
-    Sie haben sich erfolgreich am Newsletter angemeldet.
+    Vielen Dank f&uuml;r Ihre Anmeldung.
   </div>
   <div class="hm_newsletter__error alert alert-danger">
     Bei der Anmeldung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.<br>
