@@ -1,7 +1,24 @@
+.hm_newsletter p,
+.hm_newsletter li,
+.hm_newsletter strong,
 .hm_newsletter {
   box-sizing: content-box;
-  font-family: sans-serif;
-  font-size: 14px;
+  font-family: sans-serif !important;
+  font-size: 14px !important;
+  line-height: 18px !important;
+  margin-bottom: 0px;
+  letter-spacing: 0 !important;
+}
+
+.hm_newsletter ul li {
+  list-style-type: circle;
+  list-style: inherit;
+  list-style-position: inside;
+  margin-bottom: 2px !important;
+}
+
+.hm_newsletter p {
+  display: inline;
 }
 
 .hm_newsletter * {
@@ -48,11 +65,9 @@
   display: inline-block;
 }
 
-.hm_newsletter .read-more {
+.hm_newsletter .text-hidden-toggle {
   cursor: pointer;
-}
-
-.hm_newsletter span.read-more {
+  font-weight: bold;
   text-decoration: underline;
 }
 
@@ -63,7 +78,6 @@
 }
 
 .hm_newsletter__promo_permission {
-
   line-height: 18px;
 }
 
@@ -80,6 +94,10 @@
   width: 300px;
 }
 
+.hm_newsletter .checker,
+.hm_newsletter .checker input {
+  height: auto;
+}
 
 .hm_newsletter .alert-danger {
   background-color: #f2dede;
@@ -106,6 +124,7 @@
   color: #a94442;
 }
 
+.promo_permission_text--hidden,
 .hm_newsletter__error,
 .hm_newsletter__success,
 .hm_newsletter__promo_permission_more,

@@ -43,47 +43,6 @@ The key consists of CLIENTID_NEWSLETTERID, and is used by the thsixty api. The l
     '#default_value' => variable_get('hm_link_privacy', ''),
   );
 
-  $form['hm_newsletter']['hm_promo_permission'] = array(
-    '#title' => t('Promotion permission text'),
-    '#description' => t('Text for promotion permission'),
-    '#type' => 'textarea',
-    '#default_value' => variable_get('hm_promo_permission', ''),
-  );
-
-  $form['hm_newsletter']['hm_promo_permission_more_text'] = array(
-    '#title' => t('Promotion permission more text'),
-    '#description' => t('More text for promotion permission'),
-    '#type' => 'textarea',
-    '#default_value' => variable_get('hm_promo_permission_more_text', ''),
-    '#states' => array(
-      'visible' => array(
-        ':input[name="hm_promo_permission"]' => array('filled' => TRUE),
-      ),
-    ),
-  );
-
-  $form['hm_newsletter']['hm_promo_company_list'] = array(
-    '#title' => t('Promotion company list'),
-    '#type' => 'textarea',
-    '#default_value' => variable_get('hm_promo_company_list', ''),
-    '#states' => array(
-      'visible' => array(
-        ':input[name="hm_promo_permission"]' => array('filled' => TRUE),
-      ),
-    ),
-  );
-
-  $form['hm_newsletter']['hm_promo_data_categories'] = array(
-    '#title' => t('Promotion data categories'),
-    '#type' => 'textarea',
-    '#default_value' => variable_get('hm_promo_data_categories', ''),
-    '#states' => array(
-      'visible' => array(
-        ':input[name="hm_promo_permission"]' => array('filled' => TRUE),
-      ),
-    ),
-  );
-
   $form['hm_newsletter']['hm_promo_revoke_text'] = array(
     '#title' => t('Promotion revoke text'),
     '#type' => 'textarea',
@@ -101,7 +60,6 @@ The key consists of CLIENTID_NEWSLETTERID, and is used by the thsixty api. The l
     '#type' => 'textarea',
     '#default_value' => variable_get('hm_imprint_text', ''),
   );
-
 
   return system_settings_form($form);
 }
