@@ -289,7 +289,6 @@ Number.prototype.pad = function (size) {
       success: function (permissions) {
         // Clean up markup in permissions wrapper.
         $thisObj.$perms.html('');
-        console.log(permissions);
         // Show permissions.
         jQuery.each(permissions, function (index, value) {
           // For now we only show the privacy checkbox.
