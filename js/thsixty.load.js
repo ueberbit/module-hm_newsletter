@@ -10,7 +10,6 @@
       var th = document.createElement('script');
       th.type = 'text/javascript';
       th.async = true;
-      console.log(Drupal.settings.hm_newsletter.env);
       if (Drupal.settings.hm_newsletter.env == 'staging') {
         th.src = "//d2528hoa8g0iaj.cloudfront.net/staging/thsixty.min.js";
       } else {
