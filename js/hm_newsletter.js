@@ -300,7 +300,7 @@ Number.prototype.pad = function (size) {
             markup += '<input data-version="' + version + '" data-name="' + machine_name + '" type="checkbox" name="promo_permission" class="promo_permission" id="promo_permission_' + index + '">';
             markup += value.markup.text_label;
             if (value.markup.text_body) {
-              markup += '<div id="' + index + 'permission_text_more" class="promo_permission_text--hidden">';
+              markup += '<div id="privacypermission_text_more" class="promo_permission_text--hidden">';
               markup += value.markup.text_body;
               markup += '</div>';
             }
