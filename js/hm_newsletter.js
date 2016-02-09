@@ -45,11 +45,11 @@ Number.prototype.pad = function (size) {
       // Click should no affect label checkbox.
       e.preventDefault();
       if (!$(this).hasClass('visible')) {
-        $(this).addClass('visible').text('ausblenden');
+        $('.hm_newsletter__permissions').find('.text-hidden-toggle').addClass('visible');
         $('#' + $(this).data('toggle')).show();
       }
       else {
-        $(this).removeClass('visible').text('mehr');
+        $('.hm_newsletter__permissions').find('.text-hidden-toggle').removeClass('visible');
         $('#' + $(this).data('toggle')).hide();
       }
     });
