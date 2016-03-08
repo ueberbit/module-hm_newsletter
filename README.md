@@ -1,1 +1,1 @@
-# Hovermaster Newsletter integration
+# Harbourmaster Newsletter integration
