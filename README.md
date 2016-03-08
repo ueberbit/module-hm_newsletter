@@ -1,0 +1,1 @@
+# Hovermaster Newsletter integration
