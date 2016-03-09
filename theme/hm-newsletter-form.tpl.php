@@ -72,11 +72,6 @@
     <span class="hm_newsletter__required_info">* Pflichtfeld</span>
     <span class="hm_newsletter__headline2">Datenschutzabfrage</span>
     <div class="hm_newsletter__permissions form-group"></div>
-    <?php if (!empty($revoke_text)): ?>
-      <div class="hm_newsletter__promo_revoke">
-        <?php print $revoke_text; ?>
-      </div>
-    <?php endif; ?>
     <div class="hm_newsletter__alerts"></div>
     <div class="hm_newsletter__submit">
       <button type="submit" class="btn btn-default">Jetzt anmelden</button>

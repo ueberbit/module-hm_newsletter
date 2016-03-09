@@ -43,17 +43,6 @@ The key consists of CLIENTID_NEWSLETTERID, and is used by the thsixty api. The l
     '#default_value' => variable_get('hm_link_privacy', ''),
   );
 
-  $form['hm_newsletter']['hm_promo_revoke_text'] = array(
-    '#title' => t('Promotion revoke text'),
-    '#type' => 'textarea',
-    '#default_value' => variable_get('hm_promo_revoke_text', ''),
-    '#states' => array(
-      'visible' => array(
-        ':input[name="hm_promo_permission"]' => array('filled' => TRUE),
-      ),
-    ),
-  );
-
   $form['hm_newsletter']['hm_imprint_text'] = array(
     '#title' => t('Imprint text'),
     '#description' => t('Text is displayed in the footer of the newsletter subscription form.'),
