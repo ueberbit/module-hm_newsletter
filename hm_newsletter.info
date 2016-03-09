@@ -1,0 +1,5 @@
+name = Harbourmaster newsletter
+core = 7.x
+package = Harbourmaster
+version = 7.x-0.1
+project = hm_newsletter

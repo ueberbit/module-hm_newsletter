@@ -1,0 +1,170 @@
+.hm_newsletter p,
+.hm_newsletter li,
+.hm_newsletter strong,
+.hm_newsletter {
+  box-sizing: content-box;
+  font-family: sans-serif !important;
+  font-size: 14px !important;
+  line-height: 18px !important;
+  margin-bottom: 0px;
+  letter-spacing: 0 !important;
+}
+
+.hm_newsletter ul li {
+  list-style-type: circle;
+  list-style: inherit;
+  list-style-position: inside;
+  margin-bottom: 2px !important;
+}
+
+.hm_newsletter p {
+  display: inline;
+}
+
+.hm_newsletter * {
+  box-sizing: content-box;
+}
+
+.hm_newsletter__headline,
+.hm_newsletter__headline2 {
+  border-bottom: 1px solid #e0e0e0;
+  display: block;
+  font-size: 22px;
+  line-height: 200%;
+  margin-bottom: 20px;
+}
+
+.hm_newsletter__headline2 {
+  font-size: 18px;
+}
+
+.hm_newsletter__alerts {
+  margin-top: 10px;
+}
+
+.hm_newsletter__success,
+.hm_newsletter .alert {
+  padding: 15px;
+  margin-bottom: 13px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.hm_newsletter__success {
+  background-color: #dff0d8;
+  border-color: #D4E4CD;
+  color: #000;
+}
+
+.hm_newsletter__required_info {
+  font-size: 11px;
+}
+
+.hm_newsletter .required:after {
+  content: '*';
+  display: inline-block;
+}
+
+.hm_newsletter .text-hidden-toggle {
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.hm_newsletter label {
+  display: inline-block;
+  font-weight: normal;
+  min-width: 115px;
+}
+
+.hm_newsletter__promo_permission {
+  line-height: 18px;
+}
+
+.hm_newsletter .form-group {
+  margin-bottom: 10px;
+}
+
+.hm_newsletter__col {
+  float: left;
+  width: 49.9%;
+}
+
+.hm_newsletter input[type=email] {
+  width: 300px;
+}
+
+.hm_newsletter .checker,
+.hm_newsletter .checker input {
+  height: auto;
+}
+
+.hm_newsletter .alert-danger {
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  color: #a94442;
+}
+
+.hm_newsletter .alert-danger a {
+  color: #a94442;
+  font-weight: bold;
+}
+
+.hm_newsletter .alert-danger a:hover {
+  text-decoration: underline;
+}
+
+.hm_newsletter .has-error .form-control {
+  border-color: #a94442;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.hm_newsletter .has-error label {
+  color: #a94442;
+}
+
+.promo_permission_text--hidden,
+.hm_newsletter__error,
+.hm_newsletter__success,
+.hm_newsletter__promo_permission_more,
+.hm_newsletter__promo_data_categories,
+.hm_newsletter__promo_company_list {
+  display: none;
+}
+
+.hm_newsletter button[type=submit] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  background-color: #999;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  color: #fff;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.hm_newsletter button[type=submit]:hover {
+  background-color: #333;
+}
+
+.hm_newsletter__submit {
+  text-align: right;
+  margin-right: 10px;
+}
+
+.hm_newsletter .text-hidden-toggle.visible::after {
+  content: "[ - ]";
+}
+.hm_newsletter .text-hidden-toggle::after {
+  content: "[ + ]";
+  font-size: 0.8em;
+  display: inline-block;
+  padding-left: 0.3em;
+}
