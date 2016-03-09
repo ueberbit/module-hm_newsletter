@@ -103,9 +103,7 @@ function template_preprocess_hm_newsletter_form(&$vars) {
   $vars['company_list'] = variable_get('hm_promo_company_list', '');
   // Data categories.
   $vars['data_categories'] = variable_get('hm_promo_data_categories', '');
-  // Revoke text.
-  $vars['revoke_text'] = variable_get('hm_promo_revoke_text', '');
-  // daten
+  // Imprint text.
   $vars['imprint_text'] = variable_get('hm_imprint_text', '');
 
   // Birthday values.
