@@ -1,0 +1,8 @@
+base:
+  version: 1.x
+  js:
+    'js/thsixty.load.js': {}
+    'js/hm_newsletter.js': {}
+  css:
+    theme:
+      'css/hm_newsletter.css': {}

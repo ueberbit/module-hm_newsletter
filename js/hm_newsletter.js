@@ -105,9 +105,9 @@ Number.prototype.pad = function (size) {
        }*/
 
       // Get day of birth from form and reformat data.
-      var dob_day = parseInt($thisObj.$form.find('[name="dob_day').val());
-      var dob_month = parseInt($thisObj.$form.find('[name="dob_month').val());
-      var dob_year = parseInt($thisObj.$form.find('[name="dob_year').val());
+      var dob_day = parseInt($thisObj.$form.find('[name="dob_day"]').val());
+      var dob_month = parseInt($thisObj.$form.find('[name="dob_month"]').val());
+      var dob_year = parseInt($thisObj.$form.find('[name="dob_year"]').val());
       if (dob_day > 0 && dob_month > 0 && dob_year > 0) {
         user.dateofbirth = dob_year + '-' + (dob_month).pad() + '-' + (dob_day).pad();
       }
@@ -306,8 +306,6 @@ Number.prototype.pad = function (size) {
             }
             markup += '</div></label>';
             $thisObj.$perms.append(markup);
-            // update uniform.
-            $("#promo_permission_" + index).uniform();
           }
           // Form more-links.
           $thisObj.bindMoreLinks();

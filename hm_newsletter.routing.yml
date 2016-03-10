@@ -1,0 +1,16 @@
+hm_newsletter.admin:
+  path: '/admin/config/hm_newsletter'
+  defaults:
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+    _title: 'Newsletter'
+  requirements:
+    _permission: 'access administration pages'
+
+hm_newsletter.newsletter_admin_form:
+  path: /admin/config/hm_newsletter/newsletter
+  defaults:
+    _title: 'Newsletter configuration'
+    _form: \Drupal\hm_newsletter\Form\HmNewsletterNewsletterAdminForm
+  requirements:
+    _permission: 'configure harbourmaster settings'
+

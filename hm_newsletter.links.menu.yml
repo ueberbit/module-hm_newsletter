@@ -1,0 +1,14 @@
+hm_newsletter.admin:
+  title: 'Newsletter'
+  route_name: hm_newsletter.admin
+  parent: system.admin_config
+  description: 'Newsletter configuration'
+  weight: -10
+
+hm_newsletter.newsletter_admin_form:
+  route_name: hm_newsletter.newsletter_admin_form
+  title: 'Harbourmaster Newsletter configuration'
+  weight: 0
+  description: 'Newsletter configuration'
+  parent: hm_newsletter.admin
+
