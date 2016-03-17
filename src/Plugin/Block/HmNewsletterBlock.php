@@ -63,8 +63,8 @@ class HmNewsletterBlock extends BlockBase implements ContainerFactoryPluginInter
       )
     ];
 
-    $this->preprocess_block_config($render, $blockConfig);
-    $this->preprocess_template_variables($render, $settings);
+    $this->preprocessBlockConfig($render, $blockConfig);
+    $this->preprocessTemplateVariables($render, $settings);
 
     return $render;
   }
@@ -98,7 +98,7 @@ class HmNewsletterBlock extends BlockBase implements ContainerFactoryPluginInter
     }
   }
 
-  private function preprocess_block_config(&$vars, $blockConfig) {
+  private function preprocessBlockConfig(&$vars, $blockConfig) {
     foreach ($this->formElements as $element) {
       if(isset($blockConfig[$element])) {
         if($blockConfig[$element]) {
@@ -112,7 +112,7 @@ class HmNewsletterBlock extends BlockBase implements ContainerFactoryPluginInter
     }
   }
 
-  private function preprocess_template_variables(&$vars, $settings) {
+  private function preprocessTemplateVariables(&$vars, $settings) {
 
     // Get newsletters.
     $newsletters = explode(PHP_EOL, $settings->get('hm_available_newsletters'));
