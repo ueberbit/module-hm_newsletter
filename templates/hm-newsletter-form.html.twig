@@ -14,6 +14,7 @@
             {% endfor %}
         </div>
         <span class="hm_newsletter__headline2">Persönliche Daten</span>
+        {% if title %}
         <div class="hm_newsletter__salutation form-group">
             <label class="control-label required" for="salutation">Anrede</label>
             <select class="form-control" name="salutation" required="required">
@@ -22,30 +23,44 @@
                 <option>Herr</option>
             </select>
         </div>
+        {% endif %}
+        {% if firstname or name %}
         <div class="hm_newsletter__wrap2col clearfix">
+            {% if firstname %}
             <div class="hm_newsletter__firstname hm_newsletter__col form-group">
                 <label class="control-label required" for="firstname">Vorname:</label>
                 <input type="text" class="form-control" id="firstname" name="firstname"
                        required="required">
             </div>
+            {% endif %}
+            {% if name %}
             <div class="hm_newsletter__lastname hm_newsletter__col form-group">
                 <label class="control-label required" for="lastname">Nachname:</label>
                 <input type="text" class="form-control" id="lastname" name="lastname"
                        required="required">
             </div>
+            {% endif %}
         </div>
+        {% endif %}
+        {% if zipcode or location %}
         <div class="hm_newsletter__wrap2col clearfix">
+            {% if zipcode %}
             <div class="hm_newsletter__postcode hm_newsletter__col form-group">
                 <label class="control-label" for="postalcode">Postleitzahl:</label>
                 <input type="text" class="form-control" id="postalcode"
                        name="postalcode">
             </div>
+            {% endif %}
+            {% if location %}
             <div class="hm_newsletter__city hm_newsletter__col form-group">
                 <label class="control-label" for="city">Ort:</label>
                 <input type="text" class="form-control" id="city" name="city">
             </div>
+            {% endif %}
         </div>
+        {% endif %}
 
+        {% if birthdate %}
         <div class="hm_newsletter__dob form-group">
             <label class="control-label" for="dob">Geburtsdatum</label>
             <select name="dob_day">
@@ -64,6 +79,7 @@
                 {% endfor %}
             </select>
         </div>
+        {% endif %}
         <div class="hm_newsletter__email form-group">
             <label class="control-label required" for="email">E-Mail:</label>
             <input type="email" class="form-control" id="email" name="email"
