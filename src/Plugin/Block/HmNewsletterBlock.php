@@ -101,13 +101,7 @@ class HmNewsletterBlock extends BlockBase implements ContainerFactoryPluginInter
   private function preprocessBlockConfig(&$vars, $blockConfig) {
     foreach ($this->formElements as $element) {
       if(isset($blockConfig[$element])) {
-        if($blockConfig[$element]) {
-          $vars[$element] = true;
-        }
-        else {
-          $vars['#'.$element] = false;
-        }
-
+        $vars['#'.$element] = $blockConfig[$element];
       }
     }
   }
