@@ -25,6 +25,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class HmNewsletterBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   protected $configFactory;
+  private $formElements = [
+    'title', 'firstname', 'name', 'zipcode', 'location', 'birthdate'
+  ];
 
   /**
    * HmNewsletterBlock constructor.
@@ -60,7 +63,8 @@ class HmNewsletterBlock extends BlockBase implements ContainerFactoryPluginInter
       )
     ];
 
-    $this->preprocess_template_variables($render, $settings);
+    $this->preprocessBlockConfig($render, $blockConfig);
+    $this->preprocessTemplateVariables($render, $settings);
 
     return $render;
   }
@@ -68,14 +72,41 @@ class HmNewsletterBlock extends BlockBase implements ContainerFactoryPluginInter
   public function blockForm($form, FormStateInterface $form_state) {
     $config = $this->getConfiguration();
     $form = parent::blockForm($form, $form_state);
+
+    $form['hm_newsletter_fieldset'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Anzuzeigende Elemente')
+    ];
+
+    foreach ($this->formElements as $element) {
+      $form['hm_newsletter_fieldset'][$element] = [
+        '#type' => 'checkbox',
+        '#title' => ucfirst($element),
+//      '#title_display' => 'before',
+        '#default_value' => (isset($config[$element])) ? $config[$element] : 1
+      ];
+    }
+
     return $form;
   }
 
   public function blockSubmit($form, FormStateInterface $form_state) {
     parent::blockSubmit($form, $form_state);
+
+    foreach ($form_state->getValue('hm_newsletter_fieldset') as $key => $value) {
+      $this->setConfigurationValue($key, $value);
+    }
   }
 
-  private function preprocess_template_variables(&$vars, $settings) {
+  private function preprocessBlockConfig(&$vars, $blockConfig) {
+    foreach ($this->formElements as $element) {
+      if(isset($blockConfig[$element])) {
+        $vars['#'.$element] = $blockConfig[$element];
+      }
+    }
+  }
+
+  private function preprocessTemplateVariables(&$vars, $settings) {
 
     // Get newsletters.
     $newsletters = explode(PHP_EOL, $settings->get('hm_available_newsletters'));

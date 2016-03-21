@@ -11,7 +11,13 @@ function hm_newsletter_theme($existing, $type, $theme, $path) {
         'newsletters' => NULL,
         'client_id' => '',
         'birthday' => array(),
-        'imprint_text' => ''
+        'imprint_text' => '',
+        'title' => 1,
+        'firstname' => 1,
+        'name' => 1,
+        'zipcode' => 1,
+        'location' => 1,
+        'birthdate' => 1
       )
     ),
   );
