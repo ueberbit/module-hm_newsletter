@@ -3,12 +3,12 @@
         <input type="hidden" name="client_id" value="{{ client_id }}">
         <span class="hm_newsletter__headline">Newsletter abonnieren</span>
 
-        <div class="hm_newsletter__newsletters form-group">
+        <div class="hm_newsletter__newsletters form-group" {% if newsletters|length == 1 %}style="display: none;{% endif %}">
             {% for nl_id, nl_label in newsletters %}
             <div class="checkbox">
                 <label for="{{ nl_id }}">
                     <span class="hm_newsletter__nl_logo nl_logo_{{ nl_id }}"></span>
-                    <input type="checkbox" name="groups[]" id="{{ nl_id }}" value="{{ nl_id }}"> {{ nl_label }}
+                    <input type="checkbox" name="groups[]" id="{{ nl_id }}" value="{{ nl_id }}" {% if newsletters|length == 1 %}checked="checked"{% endif %}> {{ nl_label }}
                 </label>
             </div>
             {% endfor %}
