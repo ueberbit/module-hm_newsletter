@@ -55,6 +55,7 @@ class HmNewsletterNewsletterAdminForm extends ConfigFormBase {
 
     $form['hm_newsletter']['hm_environment'] = array(
       '#title' => 'Environment',
+      '#description' => $this->t('Can be overwritten by settings.php via $config[\'hm_newsletter.settings\'][\'hm_environment\'] = \'production\'/\'staging\';.'),
       '#type' => 'select',
       '#options' => array(
         'staging' => 'staging',
