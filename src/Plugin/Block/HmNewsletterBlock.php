@@ -62,7 +62,8 @@ class HmNewsletterBlock extends BlockBase implements ContainerFactoryPluginInter
         ),
         'drupalSettings' => array(
           'hm_newsletter' => array(
-            'env' => $settings->get('hm_environment')
+            'env' => $settings->get('hm_environment'),
+            'clientid' => $settings->get('hm_client_id')
           )
         )
       )
