@@ -74,15 +74,6 @@ class HmNewsletterNewsletterAdminForm extends ConfigFormBase {
     );
 
 
-    $form['hm_newsletter']['hm_available_newsletters'] = array(
-      '#title' => $this->t('Available newsletters'),
-      '#description' => $this->t('Enter one value per line, in the format key|label.
-     The key consists of CLIENTID_NEWSLETTERID, and is used by the thsixty api. The label will be used in displayed values and edit forms.'),
-      '#type' => 'textarea',
-      '#default_value' => $hm_newsletter_settings->get('hm_available_newsletters'),
-    );
-
-
     $form['hm_newsletter']['hm_imprint_text'] = array(
       '#title' => $this->t('Imprint text'),
       '#description' => $this->t('Text is displayed in the footer of the newsletter subscription form.'),

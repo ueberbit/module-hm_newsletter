@@ -70,7 +70,7 @@ class HmNewsletterBlock extends BlockBase implements ContainerFactoryPluginInter
     ];
 
     $this->preprocessBlockConfig($render, $blockConfig);
-    $this->preprocessTemplateVariables($render, $settings);
+    $this->preprocessTemplateVariables($render, $settings, $blockConfig);
 
     return $render;
   }
@@ -93,6 +93,19 @@ class HmNewsletterBlock extends BlockBase implements ContainerFactoryPluginInter
       ];
     }
 
+    $form['hm_newsletter_fieldset_newsletters'] = [
+      '#type' => 'fieldset',
+      '#title' => t('Newsletters'),
+      'newsletters' => array(
+        '#title' => $this->t('Newsletters'),
+        '#description' => $this->t('Enter one value per line, in the format key|label.
+     The key consists of CLIENTID_NEWSLETTERID, and is used by the thsixty api. The label will be used in displayed values and edit forms.'),
+        '#type' => 'textarea',
+        '#default_value' => !empty($config['newsletters']) ? $config['newsletters'] : '',
+        '#required' => TRUE
+      )
+    ];
+
     return $form;
   }
 
@@ -100,6 +113,9 @@ class HmNewsletterBlock extends BlockBase implements ContainerFactoryPluginInter
     parent::blockSubmit($form, $form_state);
 
     foreach ($form_state->getValue('hm_newsletter_fieldset') as $key => $value) {
+      $this->setConfigurationValue($key, $value);
+    }
+    foreach ($form_state->getValue('hm_newsletter_fieldset_newsletters') as $key => $value) {
       $this->setConfigurationValue($key, $value);
     }
   }
@@ -112,10 +128,10 @@ class HmNewsletterBlock extends BlockBase implements ContainerFactoryPluginInter
     }
   }
 
-  private function preprocessTemplateVariables(&$vars, $settings) {
+  private function preprocessTemplateVariables(&$vars, $settings, $blockConfig) {
 
     // Get newsletters.
-    $newsletters = explode(PHP_EOL, $settings->get('hm_available_newsletters'));
+    $newsletters = explode(PHP_EOL, $blockConfig['newsletters']);
     $newsletters_options = array();
     foreach ($newsletters as $newsletter) {
       $newsletter = explode('|', $newsletter);
