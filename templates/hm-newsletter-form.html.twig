@@ -1,7 +1,14 @@
 <div id="hm-newsletter-subscribe" class="hm_newsletter">
     <form class="form-horizontal" novalidate>
         <input type="hidden" name="client_id" value="{{ client_id }}">
-        <span class="hm_newsletter__headline">Newsletter abonnieren</span>
+
+        {% block container_form__headline %}
+            <span class="hm_newsletter__headline">{{ headline }}</span>
+        {% endblock %}
+
+        {% block container_form__description %}
+            <p class="hm_newsletter__description">{{ text|plain_text|trim }}</p>
+        {% endblock %}
 
         <div class="hm_newsletter__newsletters form-group" {% if newsletters|length == 1 %}style="display: none;{% endif %}">
             {% for nl_id, nl_label in newsletters %}

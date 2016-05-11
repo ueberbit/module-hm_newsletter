@@ -118,7 +118,10 @@ class HmNewsletterBlock extends BlockBase implements ContainerFactoryPluginInter
     }
     $vars['#newsletters'] = $newsletters_options;
 
-    $vars['#headline'] = $blockConfig['hm_newsletter_fieldset_content']['headline'];
+    $vars['#headline'] = $blockConfig['headline'];
+    $vars['#text'] = $blockConfig['text']['value'];
+    $vars['#confirmation_headline'] = $blockConfig['confirmation_headline'];
+    $vars['#confirmation_text'] = $blockConfig['confirmation_text']['value'];
 
     // Privacy text
     // @FIXME privacy text seems to be unused
