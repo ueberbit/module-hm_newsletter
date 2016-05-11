@@ -106,6 +106,41 @@ class HmNewsletterBlock extends BlockBase implements ContainerFactoryPluginInter
       )
     ];
 
+    $form['hm_newsletter_fieldset_content'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Inhalt'),
+      'headline' => array(
+        '#type' => 'textfield',
+        '#title' => t('Headline'),
+        '#default_value' => !empty($config['headline']) ? $config['headline'] : '',
+        '#size' => 256,
+        '#maxlength' => 512,
+        '#required' => TRUE,
+      ),
+      'text' => array(
+        '#type' => 'text_format',
+        '#title' => t('Text'),
+        '#default_value' => !empty($config['text']) ? $config['text']['value'] : '',
+        '#rows' => 8,
+        '#cols' => 128,
+      ),
+      'confirmation_headline' => array(
+        '#type' => 'textfield',
+        '#title' => t('Confirmation headline'),
+        '#default_value' => !empty($config['confirmation_headline']) ? $config['confirmation_headline'] : '',
+        '#size' => 256,
+        '#maxlength' => 512,
+        '#required' => TRUE,
+      ),
+      'confirmation_text' => array(
+        '#type' => 'text_format',
+        '#title' => t('Confirmation text'),
+        '#default_value' => !empty($config['confirmation_text']) ? $config['confirmation_text']['value'] : '',
+        '#rows' => 8,
+        '#cols' => 128,
+      )
+    ];
+
     return $form;
   }
 
@@ -116,6 +151,9 @@ class HmNewsletterBlock extends BlockBase implements ContainerFactoryPluginInter
       $this->setConfigurationValue($key, $value);
     }
     foreach ($form_state->getValue('hm_newsletter_fieldset_newsletters') as $key => $value) {
+      $this->setConfigurationValue($key, $value);
+    }
+    foreach ($form_state->getValue('hm_newsletter_fieldset_content') as $key => $value) {
       $this->setConfigurationValue($key, $value);
     }
   }
@@ -138,6 +176,8 @@ class HmNewsletterBlock extends BlockBase implements ContainerFactoryPluginInter
       $newsletters_options[$newsletter[0]] = $newsletter[1];
     }
     $vars['#newsletters'] = $newsletters_options;
+
+    $vars['#headline'] = $blockConfig['hm_newsletter_fieldset_content']['headline'];
 
     // Privacy text
     // @FIXME privacy text seems to be unused
