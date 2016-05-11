@@ -30,6 +30,30 @@ class HmNewsletterBlock extends BlockBase implements ContainerFactoryPluginInter
   ];
 
   /**
+   * Creates an instance of the plugin.
+   *
+   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+   *   The container to pull out services used in the plugin.
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin ID for the plugin instance.
+   * @param mixed $plugin_definition
+   *   The plugin implementation definition.
+   *
+   * @return static
+   *   Returns an instance of this plugin.
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('config.factory')
+    );
+  }
+
+  /**
    * HmNewsletterBlock constructor.
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, $configFactory) {
@@ -73,6 +97,62 @@ class HmNewsletterBlock extends BlockBase implements ContainerFactoryPluginInter
     $this->preprocessTemplateVariables($render, $settings, $blockConfig);
 
     return $render;
+  }
+
+  private function preprocessBlockConfig(&$vars, $blockConfig) {
+    foreach ($this->formElements as $element) {
+      if(isset($blockConfig[$element])) {
+        $vars['#'.$element] = $blockConfig[$element];
+      }
+    }
+  }
+
+  private function preprocessTemplateVariables(&$vars, $settings, $blockConfig) {
+
+    // Get newsletters.
+    $newsletters = explode(PHP_EOL, $blockConfig['newsletters']);
+    $newsletters_options = array();
+    foreach ($newsletters as $newsletter) {
+      $newsletter = explode('|', $newsletter);
+      $newsletters_options[$newsletter[0]] = $newsletter[1];
+    }
+    $vars['#newsletters'] = $newsletters_options;
+
+    $vars['#headline'] = $blockConfig['hm_newsletter_fieldset_content']['headline'];
+
+    // Privacy text
+    // @FIXME privacy text seems to be unused
+    $hm_link_privacy = $settings->get('hm_link_privacy');
+    if (!empty($hm_link_privacy)) {
+//      $link = Link::fromTextAndUrl('AGB/Datenschutzbestimmungen', $hm_link_privacy);
+//      $vars['#privacy_text'] = 'Ich stimme den ' . $link->toString() .' zu';
+    }
+
+    // Client id.
+    $vars['#client_id'] = $settings->get('hm_client_id');
+
+    // Imprint
+    $vars['#imprint_text'] = $settings->get('hm_imprint_text');
+
+    // Birthday values.
+    $birthday = array();
+    // Days.
+    $birthday['day'][] = '';
+    foreach(range(1, 31) as $number) {
+      $birthday['day'][$number] = $number . '.';
+    }
+    // Months.
+    $birthday['month'][] = '';
+    foreach(range(1, 12) as $number) {
+      $birthday['month'][$number] = $number . '.';
+    }
+    // Years.
+    $year = date('Y');
+    $birthday['year'][] = '';
+    foreach(range(($year-100) , ($year-16)) as $number) {
+      $birthday['year'][$number] = $number;
+    }
+    $vars['#birthday'] = $birthday;
   }
 
   public function blockForm($form, FormStateInterface $form_state) {
@@ -158,84 +238,8 @@ class HmNewsletterBlock extends BlockBase implements ContainerFactoryPluginInter
     }
   }
 
-  private function preprocessBlockConfig(&$vars, $blockConfig) {
-    foreach ($this->formElements as $element) {
-      if(isset($blockConfig[$element])) {
-        $vars['#'.$element] = $blockConfig[$element];
-      }
-    }
-  }
-
-  private function preprocessTemplateVariables(&$vars, $settings, $blockConfig) {
-
-    // Get newsletters.
-    $newsletters = explode(PHP_EOL, $blockConfig['newsletters']);
-    $newsletters_options = array();
-    foreach ($newsletters as $newsletter) {
-      $newsletter = explode('|', $newsletter);
-      $newsletters_options[$newsletter[0]] = $newsletter[1];
-    }
-    $vars['#newsletters'] = $newsletters_options;
-
-    $vars['#headline'] = $blockConfig['hm_newsletter_fieldset_content']['headline'];
-
-    // Privacy text
-    // @FIXME privacy text seems to be unused
-    $hm_link_privacy = $settings->get('hm_link_privacy');
-    if (!empty($hm_link_privacy)) {
-//      $link = Link::fromTextAndUrl('AGB/Datenschutzbestimmungen', $hm_link_privacy);
-//      $vars['#privacy_text'] = 'Ich stimme den ' . $link->toString() .' zu';
-    }
-
-    // Client id.
-    $vars['#client_id'] = $settings->get('hm_client_id');
-
-    // Imprint
-    $vars['#imprint_text'] = $settings->get('hm_imprint_text');
-
-    // Birthday values.
-    $birthday = array();
-    // Days.
-    $birthday['day'][] = '';
-    foreach(range(1, 31) as $number) {
-      $birthday['day'][$number] = $number . '.';
-    }
-    // Months.
-    $birthday['month'][] = '';
-    foreach(range(1, 12) as $number) {
-      $birthday['month'][$number] = $number . '.';
-    }
-    // Years.
-    $year = date('Y');
-    $birthday['year'][] = '';
-    foreach(range(($year-100) , ($year-16)) as $number) {
-      $birthday['year'][$number] = $number;
-    }
-    $vars['#birthday'] = $birthday;
-  }
 
 
-  /**
-   * Creates an instance of the plugin.
-   *
-   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-   *   The container to pull out services used in the plugin.
-   * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
-   * @param string $plugin_id
-   *   The plugin ID for the plugin instance.
-   * @param mixed $plugin_definition
-   *   The plugin implementation definition.
-   *
-   * @return static
-   *   Returns an instance of this plugin.
-   */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->get('config.factory')
-    );
-  }
+
+
 }
