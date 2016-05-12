@@ -16,24 +16,59 @@ Number.prototype.pad = function (size) {
    * @constructor
    */
   function HmNewsletter(context) {
-    this.$wrapper = $('#hm-newsletter-subscribe', context);
+    this.$wrapper = $('.hm_newsletter', context);
     this.$perms = this.$wrapper.find('.hm_newsletter__permissions');
     this.$form = this.$wrapper.find('form');
     this.$alerts = this.$wrapper.find('.hm_newsletter__alerts');
     this.$success = this.$wrapper.find('.hm_newsletter__success');
     this.$error = this.$wrapper.find('.hm_newsletter__error');
+    this.$privacy = this.$wrapper.find('.hm_newsletter__privacy');
+
+    this.$wrapper.addClass('initialized')
   }
 
-  // Global list of possible fields.
-  HmNewsletter.fields = {
-    salutation: null,
-    firstname: null,
-    lastname: null,
-    postalcode: null,
-    city: null,
-    dateofbirth: null,
-    email: null,
-  };
+  // Static vars and functions
+  $.extend(HmNewsletter, {
+    STATE_INITIAL: 'state-initial',
+    STATE_PRIVACY: 'state-privacy',
+    STATE_SUCCESS: 'state-success',
+    // TODO: Maybe save the permissions just once and reuse it
+    permissions: null,
+    // Global list of possible fields.
+    fields: {
+      salutation: null,
+      firstname: null,
+      lastname: null,
+      postalcode: null,
+      city: null,
+      dateofbirth: null,
+      email: null,
+    },
+    // Interpret error messages returned from thsixty
+    responseInterpreter: function (responseData) {
+      var interpretedResponse = {
+        code: responseData.code,
+        field: null,
+        message: null
+      };
+
+      switch (responseData.code) {
+        case 'EmailCannotBeEmpty':
+          interpretedResponse.field = 'email';
+          interpretedResponse.message = 'Die E-Mail-Adresse ist erforderlich.';
+          break;
+        case 'InvalidEmail':
+          interpretedResponse.field = 'email';
+          interpretedResponse.message = 'Die E-Mail-Adresse muss gültig sein.';
+          break;
+        default:
+          interpretedResponse.message = responseData.code.replace(/([A-Z])/g, ' $1');
+          break;
+      }
+
+      return interpretedResponse;
+    }
+  });
 
   /**
    * Bind clicks on more-links accordion-like behaviour.
@@ -41,18 +76,20 @@ Number.prototype.pad = function (size) {
   HmNewsletter.prototype.bindMoreLinks = function () {
     var $thisObj = this;
     // Open more text div.
-    $('.hm_newsletter__permissions').find('.text-hidden-toggle').once().on('click', function (e) {
+    $thisObj.$perms.find('.text-hidden-toggle').once().on('click', function (e) {
       // Click should no affect label checkbox.
       e.preventDefault();
       if (!$(this).hasClass('visible')) {
-        $('.hm_newsletter__permissions').find('.text-hidden-toggle').addClass('visible');
-        $('#' + $(this).data('toggle')).show();
+        $thisObj.setViewState(HmNewsletter.STATE_PRIVACY)
       }
       else {
-        $('.hm_newsletter__permissions').find('.text-hidden-toggle').removeClass('visible');
-        $('#' + $(this).data('toggle')).hide();
+        $thisObj.setViewState(HmNewsletter.STATE_INITIAL)
       }
     });
+
+    $thisObj.$privacy.find('.icon-close').click(function(e) {
+      $thisObj.setViewState(HmNewsletter.STATE_INITIAL)
+    })
   };
 
   /**
@@ -62,6 +99,8 @@ Number.prototype.pad = function (size) {
 
     var $thisObj = this;
     this.$form.on('submit', $.proxy(function (pEvent) {
+
+      pEvent.preventDefault();
 
       // On submission we remove old alerts.
       $thisObj.removeAlerts();
@@ -149,6 +188,7 @@ Number.prototype.pad = function (size) {
         valid = false;
       }
 
+      var promises = [];
       // Send subscribe request with newsletters.
       if (valid && client_groups.length) {
         var data = {};
@@ -158,9 +198,8 @@ Number.prototype.pad = function (size) {
           data.groups = value;
           data.user = user;
           data.agreements = [];
-          $thisObj.sendSubscribeRequest(data);
+          promises.push($thisObj.sendSubscribeRequest(data));
         });
-        $thisObj.scrollPage();
       }
 
       // Send subscribe request for agreements..
@@ -170,9 +209,17 @@ Number.prototype.pad = function (size) {
         data.groups = [];
         data.user = user;
         data.agreements = agreements;
-        $thisObj.sendSubscribeRequest(data);
-        $thisObj.scrollPage();
+        promises.push($thisObj.sendSubscribeRequest(data));
       }
+
+      $.when.apply($, promises).done(function() {
+        $thisObj.showSuccess();
+      }).fail(function(err) {
+        $thisObj.showError(err);
+      }).always(function(e) {
+        $thisObj.scrollPage();
+      })
+
       return false;
     }, this));
   };
@@ -184,7 +231,7 @@ Number.prototype.pad = function (size) {
     var $thisObj = this;
     // Scroll page up to newsletter form.
     $('html, body').animate({
-      scrollTop: 0
+      scrollTop: $thisObj.$wrapper.offset().top-150
     }, 200);
   };
 
@@ -229,6 +276,21 @@ Number.prototype.pad = function (size) {
   };
 
   /**
+   * Sets classes according to states, the view can be in
+   * @param pState
+   */
+  HmNewsletter.prototype.setViewState = function (pState) {
+    this.$wrapper.removeClass(HmNewsletter.STATE_PRIVACY + ' ' + HmNewsletter.STATE_SUCCESS);
+
+    switch (pState) {
+      case HmNewsletter.STATE_SUCCESS:
+      case HmNewsletter.STATE_PRIVACY:
+        this.$wrapper.addClass(pState);
+        break;
+    }
+  }
+
+  /**
    * Get the given form field.
    *
    * @param {string} field
@@ -243,22 +305,23 @@ Number.prototype.pad = function (size) {
    * Show success after subscribing to newsletter.
    */
   HmNewsletter.prototype.showSuccess = function () {
-    var $thisObj = this;
     // Reset complete form.
     this.$form.trigger("reset");
-    this.$form.hide();
-    this.$success.show();
+    this.setViewState(HmNewsletter.STATE_SUCCESS)
+
+    this.$wrapper.trigger('newsletter:success')
   };
 
   /**
    * Show error after failed subscribtion to newsletter.
    */
-  HmNewsletter.prototype.showError = function () {
-    var $thisObj = this;
-    // Reset complete form.
-    this.$form.trigger("reset");
-    this.$form.hide();
-    this.$error.show();
+  HmNewsletter.prototype.showError = function (err) {
+    var responseData = BaseNewsletterView.responseInterpreter(err);
+    this.addAlert('danger', responseData.field, responseData.message);
+
+    this.setViewState(HmNewsletter.STATE_INITIAL)
+
+    this.$wrapper.trigger('newsletter:error')
   };
 
   /**
@@ -267,15 +330,19 @@ Number.prototype.pad = function (size) {
    */
   HmNewsletter.prototype.sendSubscribeRequest = function (data) {
     var $thisObj = this;
+    var deferred = $.Deferred();
+
     window.thsixtyQ.push(['newsletter.subscribe', {
       params: data,
       success: function () {
-        $thisObj.showSuccess();
+        deferred.resolve()
       },
-      error: function (err) {
-        $thisObj.showError();
-      }
+      error: $.proxy(function (err) {
+          deferred.reject(err)
+        }, this)
     }]);
+
+    return deferred.promise()
   };
 
   /**
@@ -299,19 +366,20 @@ Number.prototype.pad = function (size) {
             var markup = '<label for="promo_permission_' + index + '"><div class="checkbox">';
             markup += '<input data-version="' + version + '" data-name="' + machine_name + '" type="checkbox" name="promo_permission" class="promo_permission" id="promo_permission_' + index + '">';
             markup += value.markup.text_label;
-            if (value.markup.text_body) {
-              markup += '<div id="privacypermission_text_more" class="promo_permission_text--hidden">';
-              markup += value.markup.text_body;
-              markup += '</div>';
-            }
             markup += '</div></label>';
             $thisObj.$perms.append(markup);
+
+            if (index == 'datenschutzeinwilligung' && value.markup.text_body) {
+              $thisObj.$privacy.find('.container-content-dynamic').empty().append(value.markup.text_body);
+            }
           }
           // Form more-links.
           $thisObj.bindMoreLinks();
         });
       },
-      error: function (err) {}
+      error: function (err) {
+        console.error(err)
+      }
     }]);
   };
 
@@ -320,6 +388,8 @@ Number.prototype.pad = function (size) {
    */
   Drupal.behaviors.hmNewsletter = {
     attach: function (context, settings) {
+      if($('.hm_newsletter', context).hasClass('initialized')) return;
+
       var NL = new HmNewsletter(context);
       // Set permission texts.
       NL.setPermissionTexts();

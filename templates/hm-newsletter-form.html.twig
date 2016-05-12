@@ -1,6 +1,7 @@
-<div id="hm-newsletter-subscribe" class="hm_newsletter">
+<div class="hm-newsletter-subscribe">
+    <div class="hm_newsletter">
         {% block container_form %}
-            <form class="form-horizontal" novalidate>
+            <form class="form-horizontal container-content-item" novalidate>
                 <input type="hidden" name="client_id" value="{{ client_id }}">
 
                 {% block container_form__headline %}
@@ -126,16 +127,26 @@
         {% endblock %}
 
         {% block container_success %}
-        <div class="hm_newsletter__success">
-            Vielen Dank f&uuml;r Ihre Anmeldung.
+        <div class="hm_newsletter__success container-content-item">
+            <div class="content-wrapper">
+                {% block container_success__headline %}
+                    <div class="text-headline ">{{ confirmation_headline }}</div>
+                {% endblock %}
+                {% block container_success__confirmation_text %}
+                    {{ confirmation_text|raw }}
+                {% endblock %}
+            </div>
         </div>
         {% endblock %}
 
-        {% block container_alert %}
-        <div class="hm_newsletter__error alert alert-danger">
-            Bei der Anmeldung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.<br>
-            <a href="?">Newsletteranmeldung durchführen</a>
-        </div>
+        {% block container_privacy %}
+            <div class="hm_newsletter__privacy container-content-item promo_permission_text--hidden container-content-item">
+                <span class="icon icon-close"></span>
+
+                <div class="container-content-dynamic">
+
+                </div>
+            </div>
         {% endblock %}
     </div>
 </div>
