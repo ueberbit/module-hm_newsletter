@@ -211,14 +211,16 @@ Number.prototype.pad = function (size) {
         data.agreements = agreements;
         promises.push($thisObj.sendSubscribeRequest(data));
       }
-
-      $.when.apply($, promises).done(function() {
-        $thisObj.showSuccess();
-      }).fail(function(err) {
-        $thisObj.showError(err);
-      }).always(function(e) {
-        $thisObj.scrollPage();
-      })
+      
+      if(valid) {
+        $.when.apply($, promises).done(function() {
+          $thisObj.showSuccess();
+        }).fail(function(err) {
+          $thisObj.showError(err);
+        }).always(function(e) {
+          $thisObj.scrollPage();
+        })
+      }
 
       return false;
     }, this));
