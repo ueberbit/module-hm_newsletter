@@ -16,7 +16,12 @@ Number.prototype.pad = function (size) {
    * @constructor
    */
   function HmNewsletter(context) {
-    this.$wrapper = $('.hm_newsletter', context);
+    if($(context).is('.hm_newsletter')) {
+      this.$wrapper = $(context);
+    }
+    else {
+      this.$wrapper = $('.hm_newsletter', context);
+    }
     this.$perms = this.$wrapper.find('.hm_newsletter__permissions');
     this.$form = this.$wrapper.find('form');
     this.$alerts = this.$wrapper.find('.hm_newsletter__alerts');
@@ -390,7 +395,7 @@ Number.prototype.pad = function (size) {
    */
   Drupal.behaviors.hmNewsletter = {
     attach: function (context, settings) {
-      if($('.hm_newsletter', context).hasClass('initialized')) return;
+      if($('.hm_newsletter', context).hasClass('initialized') || $(context).is('.hm_newsletter.initialized')) return;
 
       var NL = new HmNewsletter(context);
       // Set permission texts.
