@@ -365,10 +365,10 @@ Number.prototype.pad = function (size) {
             // For now we fake the machine name of the permission - should be delivered ba service call also.
             var machine_name = index;
             var version = value.version;
-            var markup = '<label for="promo_permission_' + index + '"><div class="checkbox">';
+            var markup = '<div class="checkbox"><label for="promo_permission_' + index + '">';
             markup += '<input data-version="' + version + '" data-name="' + machine_name + '" type="checkbox" name="promo_permission" class="promo_permission" id="promo_permission_' + index + '">';
             markup += value.markup.text_label;
-            markup += '</div></label>';
+            markup += '</label></div>';
             $thisObj.$perms.append(markup);
 
             if (index == 'datenschutzeinwilligung' && value.markup.text_body) {
