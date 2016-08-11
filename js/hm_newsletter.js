@@ -67,12 +67,12 @@ Number.prototype.pad = function (size) {
       switch (responseData.code) {
         case 'EmailCannotBeEmpty':
           interpretedResponse.field = 'email';
-          interpretedResponse.message = 'Die E-Mail-Adresse ist erforderlich.';
+          interpretedResponse.message = Drupal.t('The mailadress is required.');
           break;
 
         case 'InvalidEmail':
           interpretedResponse.field = 'email';
-          interpretedResponse.message = 'Die E-Mail-Adresse muss gültig sein.';
+          interpretedResponse.message = Drupal.t('The mailadress must be valid.');
           break;
 
         default:
@@ -131,14 +131,14 @@ Number.prototype.pad = function (size) {
           user[index] = val;
           // When the field is required, the value must not be empty.
           if (val === '' && field.attr('required')) {
-            $thisObj.addAlert('danger', index, 'Das Feld ist erforderlich.');
+            $thisObj.addAlert('danger', index, Drupal.t('This field is required.'));
             valid = false;
           }
           // Check for valid email address.
           var regex = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/igm;
           if ((index === 'email' && val.length > 0) && !regex.test(val)) {
             $thisObj.addAlert('danger', index,
-              'Bitte überprüfen Sie die Eingabe der E-Mail Adresse.');
+              Drupal.t('Please check the mailadress entry.'));
             valid = false;
           }
         }
@@ -198,7 +198,7 @@ Number.prototype.pad = function (size) {
       // We only send request if groups or agreements are passed.
       if (valid && agreements.length === 0 && client_groups.length === 0) {
         $thisObj.addAlert('danger', 'promo_permission',
-          'Bitte bestätigen Sie die Datenschutzeinwilligung.');
+          'Please confirm the privacy statement.');
         valid = false;
       }
 

@@ -160,7 +160,7 @@ class HmNewsletterBlock extends BlockBase implements ContainerFactoryPluginInter
 
     $form['hm_newsletter_fieldset'] = [
       '#type' => 'fieldset',
-      '#title' => $this->t('Anzuzeigende Elemente'),
+      '#title' => $this->t('Displayed elements')
     ];
 
     foreach ($this->formElements as $element) {
@@ -187,7 +187,7 @@ class HmNewsletterBlock extends BlockBase implements ContainerFactoryPluginInter
 
     $form['hm_newsletter_fieldset_content'] = [
       '#type' => 'fieldset',
-      '#title' => $this->t('Inhalt'),
+      '#title' => $this->t('Content'),
       'headline' => array(
         '#type' => 'textfield',
         '#title' => t('Headline'),
