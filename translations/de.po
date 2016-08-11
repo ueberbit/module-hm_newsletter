@@ -1,0 +1,21 @@
+# First entry gets skipped
+msgid ""
+msgstr ""
+
+# js/hm_newsletter.js
+msgid "The mailadress is required."
+msgstr "Die E-Mail-Adresse ist erforderlich."
+msgid "The mailadress must be valid."
+msgstr "Die E-Mail-Adresse muss gültig sein."
+msgid "This field is required."
+msgstr "Das Feld ist erforderlich."
+msgid "Please check the mailadress entry."
+msgstr "Bitte überprüfen Sie die Eingabe der E-Mail Adresse."
+msgid "Please confirm the privacy statement."
+msgstr "Bitte bestätigen Sie die Datenschutzeinwilligung."
+
+# BlockForm
+msgid "Displayed elements"
+msgstr "Anzuzeigende Elemente"
+msgid "Content"
+msgstr "Inhalt"

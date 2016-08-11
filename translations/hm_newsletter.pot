@@ -1,0 +1,18 @@
+
+# js/hm_newsletter.js
+msgid "The mailadress is required."
+msgstr ""
+msgid "The mailadress must be valid."
+msgstr ""
+msgid "This field is required."
+msgstr ""
+msgid "Please check the mailadress entry."
+msgstr ""
+msgid "Please confirm the privacy statement."
+msgstr ""
+
+# BlockForm
+msgid "Displayed elements"
+msgstr ""
+msgid "Content"
+msgstr "Inhalt"
