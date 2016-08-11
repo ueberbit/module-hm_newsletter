@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * Update translations
+ */
+function hm_newsletter_update_8208(&$sandbox) {
+//  locale_system_update(array('module'=> array('hm_newsletter')));
+
+//  $handle = fopen(__DIR__.'/translations/de.po', 'r');
+//  $file = file_save_data($handle, 'temporary://hm_newsletter.de.po');
+//  fclose($handle);
+
+  $file = new stdClass();
+  $file->uri = __DIR__.'/translations/de.po';
+  $file->langcode = 'de';
+
+
+  \Drupal\locale\Gettext::fileToDatabase($file, array());
+
+//  batch_process();
+}
