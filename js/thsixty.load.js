@@ -1,3 +1,7 @@
+/**
+ * @file
+ */
+
 (function ($, window, document) {
   Drupal.behaviors.thsixty = {
     attach: function (context) {
@@ -12,7 +16,8 @@
       th.async = true;
       if (drupalSettings.hm_newsletter.env == 'staging') {
         th.src = "//d2528hoa8g0iaj.cloudfront.net/staging/thsixty.min.js";
-      } else {
+      }
+else {
         th.src = "//d2528hoa8g0iaj.cloudfront.net/thsixty.min.js";
       }
       var s = document.getElementsByTagName('script')[0];

@@ -1,7 +1,9 @@
 /**
+ * @file
  * Extend Number functions and add pad function to
  * allow leading zeros.
  */
+
 Number.prototype.pad = function (size) {
   var s = String(this);
   while (s.length < (size || 2)) {
@@ -13,6 +15,7 @@ Number.prototype.pad = function (size) {
 (function ($, Drupal, window, document) {
   /**
    * Harbourmaster Newsletter object.
+   *
    * @constructor
    */
   function HmNewsletter(context) {
@@ -56,7 +59,7 @@ Number.prototype.pad = function (size) {
   };
 
   /**
-   * Submit function for newsletter
+   * Submit function for newsletter.
    */
   HmNewsletter.prototype.bindSubmit = function () {
 
@@ -133,7 +136,7 @@ Number.prototype.pad = function (size) {
       // Agreements.
       var $promo_permissions = $thisObj.$form.find('[name="promo_permission"]');
       jQuery.each($promo_permissions, function (index, elem) {
-        if($(elem).is(':checked') === true) {
+        if ($(elem).is(':checked') === true) {
           var agreement = {
             "version": $(elem).data('version'),
             "name": $(elem).data('name')
@@ -219,7 +222,6 @@ Number.prototype.pad = function (size) {
     el.parents('.form-group').addClass(state);
   };
 
-
   /**
    * Removes all alerts from the newsletter form allert section.
    */
@@ -232,12 +234,12 @@ Number.prototype.pad = function (size) {
    * Get the given form field.
    *
    * @param {string} field
+   *
    * @returns {*}
    */
   HmNewsletter.prototype.formField = function (field) {
     return this.$form.find('[name="' + field + '"]');
   };
-
 
   /**
    * Show success after subscribing to newsletter.
@@ -263,6 +265,7 @@ Number.prototype.pad = function (size) {
 
   /**
    * Sends subscribe request with given data.
+   *
    * @param data
    */
   HmNewsletter.prototype.sendSubscribeRequest = function (data) {
