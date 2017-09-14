@@ -7,7 +7,7 @@
     attach: function (context) {
       let env = drupalSettings.hm_newsletter ? drupalSettings.hm_newsletter.env : false;
       var config = {
-        env: drupalSettings.hm_newsletter.env,
+        env: env,
         version: 'v1'
       };
       window.thsixtyQ = window.thsixtyQ || [];
